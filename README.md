@@ -35,6 +35,7 @@ Settings, runs and leaderboards are saved in the browser (localStorage), so set 
 | Stand-in SVG characters | `js/chars.js` |
 | Venture logos (`mark` for the podium and intro card, `icon` for small spots) | `js/logos/<pitch>.js`; preview with `tools/logo-preview.html?pid=erie` |
 | "The Tank" emblem (projected on the wall, shown in the directions) | `js/tanklogo.js` |
+| Downloadable logo files (SVG + transparent PNG, and a zip) | `brand/logos/`, `brand/the-tank-logos.zip`; rebuild with `node tools/export_logos.mjs` |
 | Fonts (self-hosted, so the site works where Google Fonts is blocked) | `assets/fonts/`, `css/fonts.css` |
 
 ### Teacher-only content is encrypted
