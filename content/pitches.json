@@ -1,5 +1,11 @@
 {
-  "defaultOrder": ["turnpike", "slater", "steamboat", "erie", "northerncross"],
+  "defaultOrder": [
+    "turnpike",
+    "slater",
+    "steamboat",
+    "erie",
+    "northerncross"
+  ],
   "pitches": {
     "turnpike": {
       "title": "The Turnpike",
@@ -11,12 +17,36 @@
       "seeking": "$300,000 for 1,000 shares at $300 each",
       "scene": "turnpike",
       "exhibits": [
-        { "cue": "sinks", "big": "Stuck in the mud", "small": "Dirt roads swallow wagons every spring" },
-        { "cue": "Sixty-two", "big": "62 miles of stone", "small": "Philadelphia to Lancaster, graded and drained" },
-        { "cue": "Nine toll", "big": "9 toll gates", "small": "Travelers pay, and the tolls go to shareholders" },
-        { "cue": "thousand shares", "big": "1,000 shares at $300", "small": "The charter sets the rules on dividends" },
-        { "cue": "lottery", "big": "Shares by lottery", "small": "The sign-up caused an uproar" },
-        { "cue": "rain or snow", "big": "Pays year after year", "small": "\"It won't make you rich by Christmas\"" }
+        {
+          "cue": "sinks",
+          "big": "Stuck in the mud",
+          "small": "Dirt roads swallow wagons every spring"
+        },
+        {
+          "cue": "Sixty-two",
+          "big": "62 miles of stone",
+          "small": "Philadelphia to Lancaster, graded and drained"
+        },
+        {
+          "cue": "Nine toll",
+          "big": "9 toll gates",
+          "small": "Travelers pay, and the tolls go to shareholders"
+        },
+        {
+          "cue": "thousand shares",
+          "big": "1,000 shares at $300",
+          "small": "The charter sets the rules on dividends"
+        },
+        {
+          "cue": "lottery",
+          "big": "Shares by lottery",
+          "small": "The sign-up caused an uproar"
+        },
+        {
+          "cue": "rain or snow",
+          "big": "Pays year after year",
+          "small": "\"It won't make you rich by Christmas\""
+        }
       ]
     },
     "slater": {
@@ -29,13 +59,36 @@
       "seeking": "Partners for a water-powered cotton mill",
       "scene": "slater",
       "exhibits": [
-        { "cue": "forbids", "big": "England's secret", "small": "Machine plans may not leave Britain" },
-        { "cue": "memorized", "big": "Plans: memorized", "small": "Samuel Slater, age 21, carried nothing on paper" },
-        { "cue": "seventy-two", "big": "72 spindles", "small": "Running since December 1790" },
-        { "cue": "wheel", "big": "Water power", "small": "The Blackstone River turns the wheel" },
-        { "cue": "full speed", "big": "Runs every day", "small": "Full speed, order or no order" },
-        { "cue": "Children", "big": "Workers: children", "small": "\"Small hands, small wages\"" },
-        { "cue": "No one else", "big": "The only one in America", "small": "\"Tell nobody where you heard it\"" }
+        {
+          "cue": "forbids",
+          "big": "England's secret",
+          "small": "Machine plans may not leave Britain"
+        },
+        {
+          "cue": "memorized",
+          "big": "Plans: memorized",
+          "small": "Samuel Slater, age 21, carried nothing on paper"
+        },
+        {
+          "cue": "seventy-two",
+          "big": "72 spindles",
+          "small": "Running since December 1790"
+        },
+        {
+          "cue": "wheel",
+          "big": "Water power",
+          "small": "The Blackstone River turns the wheel"
+        },
+        {
+          "cue": "Children",
+          "big": "Workers: children",
+          "small": "\"Small hands, small wages\""
+        },
+        {
+          "cue": "No one else",
+          "big": "The only one in America",
+          "small": "\"Tell nobody where you heard it\""
+        }
       ]
     },
     "steamboat": {
@@ -48,12 +101,36 @@
       "seeking": "Shareholders in the North River steamboat company",
       "scene": "steamboat",
       "exhibits": [
-        { "cue": "hundred and fifty", "big": "150 miles", "small": "New York City to Albany at 5 miles an hour" },
-        { "cue": "boiler", "big": "Fire, steam, paddles", "small": "No wind, no oars, no mules" },
-        { "cue": "schedule", "big": "Runs on a schedule", "small": "Passengers, freight and mail, on time" },
-        { "cue": "exclusive", "big": "Exclusive rights", "small": "Every river and lake in New York State" },
-        { "cue": "seizes", "big": "Rivals seized", "small": "Unlicensed steamboats taken by the state" },
-        { "cue": "Enormous", "big": "Returns: enormous", "small": "Per a gentleman in Albany" }
+        {
+          "cue": "hundred and fifty",
+          "big": "150 miles",
+          "small": "New York City to Albany at 5 miles an hour"
+        },
+        {
+          "cue": "boiler",
+          "big": "Fire, steam, paddles",
+          "small": "No wind, no oars, no mules"
+        },
+        {
+          "cue": "schedule",
+          "big": "Runs on a schedule",
+          "small": "Passengers, freight and mail, on time"
+        },
+        {
+          "cue": "exclusive",
+          "big": "Exclusive rights",
+          "small": "Every river and lake in New York State"
+        },
+        {
+          "cue": "seizes",
+          "big": "Rivals seized",
+          "small": "Unlicensed steamboats taken by the state"
+        },
+        {
+          "cue": "Enormous",
+          "big": "Returns: enormous",
+          "small": "Per a gentleman in Albany"
+        }
       ]
     },
     "erie": {
@@ -66,13 +143,41 @@
       "seeking": "Backing for a $7 million state canal",
       "scene": "erie",
       "exhibits": [
-        { "cue": "three hundred and sixty-three", "big": "363 miles", "small": "From the Hudson River to Lake Erie" },
-        { "cue": "one hundred dollars", "big": "$100 a ton", "small": "What a wagon charges today" },
-        { "cue": "Eighty-three", "big": "83 locks", "small": "Lifting boats over 568 feet of land" },
-        { "cue": "Ten dollars", "big": "$10 a ton", "small": "Promised canal freight rate" },
-        { "cue": "seven million", "big": "$7,000,000", "small": "Estimated cost, built by New York State" },
-        { "cue": "Canal Fund", "big": "The Canal Fund", "small": "Tolls from every boat repay investors" },
-        { "cue": "winter", "big": "Winter", "small": "\"Only a brief rest for the mules\"" }
+        {
+          "cue": "three hundred and sixty-three",
+          "big": "363 miles",
+          "small": "From the Hudson River to Lake Erie"
+        },
+        {
+          "cue": "one hundred dollars",
+          "big": "$100 a ton",
+          "small": "What a wagon charges today"
+        },
+        {
+          "cue": "Eighty-three",
+          "big": "83 locks",
+          "small": "Lifting boats over 568 feet of land"
+        },
+        {
+          "cue": "Ten dollars",
+          "big": "$10 a ton",
+          "small": "Promised canal freight rate"
+        },
+        {
+          "cue": "seven million",
+          "big": "$7,000,000",
+          "small": "Estimated cost, built by New York State"
+        },
+        {
+          "cue": "Canal Fund",
+          "big": "The Canal Fund",
+          "small": "Tolls from every boat repay investors"
+        },
+        {
+          "cue": "winter",
+          "big": "Winter",
+          "small": "\"Only a brief rest for the mules\""
+        }
       ]
     },
     "northerncross": {
@@ -85,13 +190,41 @@
       "seeking": "Buyers for Illinois railroad bonds",
       "scene": "northerncross",
       "exhibits": [
-        { "cue": "Thirteen hundred", "big": "1,300 miles of rail", "small": "The $10 million Internal Improvement Act" },
-        { "cue": "Quincy", "big": "The Northern Cross", "small": "Quincy to Springfield to the Indiana line" },
-        { "cue": "locomotive", "big": "Locomotive ordered", "small": "Brand new from New Jersey" },
-        { "cue": "Three trains", "big": "3 trains a week", "small": "Backed by the state of Illinois" },
-        { "cue": "We lay wood", "big": "Half the price", "small": "Wooden rails with an iron strap on top" },
-        { "cue": "stop smiling", "big": "Satisfied investor", "small": "A gentleman in Springfield" },
-        { "cue": "three more investors", "big": "Only 3 spots left", "small": "The state wants its money this week" }
+        {
+          "cue": "Thirteen hundred",
+          "big": "1,300 miles of rail",
+          "small": "The $10 million Internal Improvement Act"
+        },
+        {
+          "cue": "Quincy",
+          "big": "The Northern Cross",
+          "small": "Quincy to Springfield to the Indiana line"
+        },
+        {
+          "cue": "locomotive",
+          "big": "Locomotive ordered",
+          "small": "Brand new from New Jersey"
+        },
+        {
+          "cue": "Three trains",
+          "big": "3 trains a week",
+          "small": "Backed by the state of Illinois"
+        },
+        {
+          "cue": "We lay wood",
+          "big": "Half the price",
+          "small": "Wooden rails with an iron strap on top"
+        },
+        {
+          "cue": "stop smiling",
+          "big": "Satisfied investor",
+          "small": "A gentleman in Springfield"
+        },
+        {
+          "cue": "three more investors",
+          "big": "Only 3 spots left",
+          "small": "The state wants its money this week"
+        }
       ]
     }
   }

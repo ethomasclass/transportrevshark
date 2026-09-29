@@ -1,8 +1,8 @@
-"""Voices the pitches: content/scripts.json -> assets/audio/<id>-<long|short>.mp3 plus
-<id>-<long|short>.words.json (each word of the on-screen script with its start and end time).
+"""Voices the pitches: content/scripts.json -> assets/audio/<id>-short.mp3 plus
+<id>-short.words.json (each word of the on-screen script with its start and end time).
 
-  python3 tools/voice.py                  # every pitch, both cuts
-  python3 tools/voice.py erie long        # one pitch, one cut
+  python3 tools/voice.py                  # every pitch (the 90-second cuts)
+  python3 tools/voice.py erie             # one pitch
 
 The scripts stay clean: the delivery tags below (eleven_v3 audio tags such as [whispers]) and the
 spoken forms of numbers are added only to the copy that is sent to ElevenLabs. Responses are
@@ -119,7 +119,7 @@ def voice(pid, cut, scripts):
 def main():
     scripts = json.load(open(os.path.join(ROOT, "content", "scripts.json")))
     pids = [sys.argv[1]] if len(sys.argv) > 1 else list(VOICES)
-    cuts = [sys.argv[2]] if len(sys.argv) > 2 else ["long", "short"]
+    cuts = ["short"]
     for pid in pids:
         for cut in cuts:
             voice(pid, cut, scripts)

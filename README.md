@@ -11,7 +11,7 @@ A Shark Tank-style investing game for the Transportation Revolution unit (9th-gr
   4. Students write their investment on the worksheet.
   After the last pitch, **Where Are They Now** (teacher password) reveals one newspaper per venture, then the payout table.
 - **Catch-up (absent students).** The same game on their own device, with pitches in a shuffled order. They invest on screen, which enforces the $1,000 and spend-it-all rules. At the end, the teacher types the password on that device to show their results.
-- **Teacher tools** (password): the period, pitch order and shuffle, 2-minute or 90-second cuts, questions per pitch, the decision clock, a math-check calculator, a class leaderboard, and debrief notes (the clues in every pitch and what each answer gives away).
+- **Teacher tools** (password): the period, pitch order and shuffle, questions per pitch, the decision clock, a math-check calculator, a class leaderboard, and debrief notes (the clues in every pitch and what each answer gives away).
 - **Worksheet:** `handout.html`, printable, two pages.
 - **Voice auditions:** `auditions/`, to compare the candidate voices for each promoter.
 
@@ -21,7 +21,7 @@ Settings, runs and leaderboards are saved in the browser (localStorage), so set 
 
 | What | File |
 |---|---|
-| Pitch scripts (both cuts, verbatim from the spec) | `content/scripts.json` |
+| Pitch scripts (the 90-second cuts, verbatim from the spec) | `content/scripts.json` |
 | Promoters, years, "seeking" lines, easel exhibits | `content/pitches.json` |
 | Question bank (questions and in-character answers) | `content/faq.json` |
 | Payouts, newspaper reveals, clues, answer notes, debrief questions | `content/teacher.enc.json` (encrypted) |
@@ -46,7 +46,7 @@ Pitches are voiced with ElevenLabs `eleven_v3` by `tools/voice.py`. The voice ch
 ```sh
 pip install numpy imageio-ffmpeg
 python3 tools/voice.py                 # everything; unchanged text is cached and costs nothing
-python3 tools/voice.py erie short      # one pitch, one cut
+python3 tools/voice.py erie            # one pitch
 python3 tools/audition.py              # regenerate the audition clips
 ```
 

@@ -19,7 +19,7 @@ const money = (n) => '$' + (Math.abs(n - Math.round(n)) < 0.005 ? Math.round(n).
 const shuffle = (a) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 // ---------- settings and runs ----------
-const DEFAULTS = { period: '1', cut: 'long', orders: {}, qLimit: 2, timer: 60 };
+const DEFAULTS = { period: '1', orders: {}, qLimit: 2, timer: 60 };
 const settings = () => ({ ...DEFAULTS, ...store.local.get('tank.settings', {}) });
 const saveSettings = (s) => store.local.set('tank.settings', s);
 const periodOrder = (s = settings()) => s.orders[s.period] || C.defaultOrder;
@@ -28,7 +28,7 @@ const saveRun = (run) => store.local.set(`tank.run.${run.mode}`, run);
 
 function newRun(mode) {
   const s = settings();
-  return { mode, order: mode === 'class' ? periodOrder(s) : shuffle(C.defaultOrder), cut: mode === 'class' ? s.cut : 'long',
+  return { mode, order: mode === 'class' ? periodOrder(s) : shuffle(C.defaultOrder),
     period: s.period, i: 0, step: 'intro', asked: {}, invest: {} };
 }
 const spent = (run) => Object.values(run.invest).reduce((a, b) => a + b, 0);
@@ -66,7 +66,7 @@ function lobby() {
         <button class="btn big" data-act="solo">${solo ? 'Resume catch-up' : 'Catch-up (play on your own)'}</button>
         <button class="btn ghost big" data-go="#/teacher">Teacher</button>
       </div>
-      <div class="meta">Class setup: Period ${esc(s.period)} · ${s.cut === 'long' ? '2-minute' : '90-second'} pitches · ${s.qLimit} question${s.qLimit === 1 ? '' : 's'} per pitch${cls ? ` · <button class="homebtn" data-act="restart-class" style="text-decoration:underline">start class game over</button>` : ''}</div>
+      <div class="meta">Class setup: Period ${esc(s.period)} · 90-second pitches · ${s.qLimit} question${s.qLimit === 1 ? '' : 's'} per pitch${cls ? ` · <button class="homebtn" data-act="restart-class" style="text-decoration:underline">start class game over</button>` : ''}</div>
     </div></div>
     <div class="fin"></div>`, { spot: '50%', sign: false });
   L.addEventListener('click', (e) => {
@@ -116,7 +116,7 @@ async function intro(run, pid, p, chips, go) {
 async function pitchStep(run, pid, p, chips, go) {
   const L = setScene(`${topbar(`${chips}<span class="chip"><b>${p.year}</b> · ${esc(p.title)}</span>`)}<div class="stage" style="position:absolute;inset:0"></div>`, { spot: '22%', sign: false });
   const player = await playPitch(L.querySelector('.stage'), {
-    pid, pitch: p, paras: C.scripts[pid].scripts[run.cut], cut: run.cut, onDone: () => go('questions'),
+    pid, pitch: p, paras: C.scripts[pid].scripts.short, cut: 'short', onDone: () => go('questions'),
   });
   stopCurrent = player.stop;
 }
@@ -378,7 +378,6 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
     const order = periodOrder(s);
     pane.innerHTML = `
       <div class="row"><label>Class period <select data-k="period">${[1, 2, 3, 4, 5, 6, 7, 8].map((n) => `<option ${String(n) === s.period ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
-        <label>Pitch length <select data-k="cut"><option value="long" ${s.cut === 'long' ? 'selected' : ''}>2 minutes</option><option value="short" ${s.cut === 'short' ? 'selected' : ''}>90 seconds</option></select></label>
         <label>Questions per pitch <select data-k="qLimit">${[1, 2, 3, 6].map((n) => `<option ${n === s.qLimit ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
         <label>Decision clock <select data-k="timer">${[0, 30, 45, 60, 90, 120].map((n) => `<option value="${n}" ${n === s.timer ? 'selected' : ''}>${n ? n + ' seconds' : 'off'}</option>`).join('')}</select></label></div>
       <h3>Pitch order for period ${esc(s.period)}</h3>
@@ -389,7 +388,7 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
       <h3>Class game</h3>
       <div class="row"><span>${getRun('class') ? `In progress: pitch ${getRun('class').i + 1} of 5 (${esc(getRun('class').step)})` : 'Not started'}.</span>
         <button class="btn small" data-act="newclass">Start a fresh class game with these settings</button></div>
-      <p style="color:var(--muted)">Settings are saved in this browser, so set them up on the projector computer. The class game picks up the order and length when it starts. Catch-up mode shuffles its own order.</p>`;
+      <p style="color:var(--muted)">Settings are saved in this browser, so set them up on the projector computer. The class game picks up the order when it starts. Catch-up mode shuffles its own order.</p>`;
     pane.querySelectorAll('select').forEach((sel) => sel.addEventListener('change', () => {
       const n = settings();
       n[sel.dataset.k] = ['qLimit', 'timer'].includes(sel.dataset.k) ? Number(sel.value) : sel.value;
