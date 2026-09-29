@@ -18,6 +18,9 @@ let stopCurrent = null;
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const money = (n) => '$' + (Math.abs(n - Math.round(n)) < 0.005 ? Math.round(n).toLocaleString('en-US')
   : n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+// A payout of $1,800 per $1,000 is a multiplier of 1.8: every $1 invested became $1.80.
+const mult = (payout) => payout / 1000;
+const perDollar = (payout) => (mult(payout) >= 0.1 ? '$' + mult(payout).toFixed(2) : `${+(mult(payout) * 100).toFixed(2)}¢`);
 const shuffle = (a) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 // ---------- settings and runs ----------
@@ -392,7 +395,7 @@ function reveal(mode, T) {
     let body;
     if (k === 0) {
       body = `<div class="curtain"><div class="panel"><div class="kicker">Years later...</div><h2 style="font-size:4.4cqw">Where Are They Now?</h2>
-        <p style="font-size:1.8cqw">Five ventures. Five newspapers from the years that followed, and what each one meant for the country. ${mode === 'class' ? 'For each one, multiply what <b>you</b> invested by the payout, and keep a running total on your worksheet.' : "Let's see what your money became."}</p></div></div>`;
+        <p style="font-size:1.8cqw">Five ventures. Five newspapers from the years that followed, and what each one meant for the country. ${mode === 'class' ? 'Each newspaper shows a <b>multiplier</b>. Multiply what <b>you</b> invested by that number to find what your money became, and keep a running total on your worksheet.' : "Let's see what your money became."}</p></div></div>`;
     } else if (k <= 2 * n && k % 2 === 1) {
       const id = order[(k - 1) / 2], c = T.pitches[id], p = C.pitches[id];
       const inv = run?.invest[id];
@@ -402,7 +405,8 @@ function reveal(mode, T) {
         <h3>${esc(c.headline)}</h3><div class="subhead">${esc(c.subhead)}</div>
         <div class="cols">${c.outcome.map((o) => `<p>${esc(o)}</p>`).join('')}<p class="impact">${esc(c.impact)}</p></div>
       </div>
-      <div class="payout-stamp ${c.payout >= 1000 ? 'win' : ''}"><div class="k">${esc(p.title)}<br>every $1,000 became</div><div class="v">${money(c.payout)}</div>${you}</div>`;
+      <div class="payout-stamp ${c.payout >= 1000 ? 'win' : ''}"><div class="k">${esc(p.title)}<br>every $1 became</div><div class="v">${perDollar(c.payout)}</div>
+        <div class="x">Multiply by <b>${mult(c.payout)}</b></div><div class="eg">$1,000 &rarr; ${money(c.payout)}</div>${you}</div>`;
     } else if (k <= 2 * n) {
       const id = order[k / 2 - 1], c = T.pitches[id], p = C.pitches[id];
       body = `<div class="why panel">
@@ -426,13 +430,13 @@ function reveal(mode, T) {
     } else {
       const rows = order.map((id) => {
         const c = T.pitches[id], inv = run?.invest[id] || 0;
-        return `<tr><td>${esc(C.pitches[id].title)}</td><td class="num">${money(c.payout)}</td>${mode === 'solo' ? `<td class="num">${money(inv)}</td><td class="num">${money((inv * c.payout) / 1000)}</td>` : ''}</tr>`;
+        return `<tr><td>${esc(C.pitches[id].title)}</td><td class="num">${perDollar(c.payout)}</td><td class="num"><b>&times; ${mult(c.payout)}</b></td>${mode === 'solo' ? `<td class="num">${money(inv)}</td><td class="num">${money((inv * c.payout) / 1000)}</td>` : ''}</tr>`;
       }).join('');
       body = `<div class="curtain"><div class="panel" style="width:66%">
         <div class="kicker">The final tally</div><h2>${mode === 'solo' ? `You finished with ${money(total(n))}` : 'Add up your five returns'}</h2>
-        <table class="summary"><thead><tr><th>Venture</th><th class="num">Every $1,000 became</th>${mode === 'solo' ? '<th class="num">You invested</th><th class="num">Now worth</th>' : ''}</tr></thead><tbody>${rows}</tbody>
-        ${mode === 'solo' ? `<tfoot><tr><td>Total</td><td></td><td class="num">${money(spent(run))}</td><td class="num">${money(total(n))}</td></tr></tfoot>` : ''}</table>
-        <p style="font-size:1.4cqw">Return on a venture = what you invested &times; the payout &divide; 1,000.${mode === 'class' ? ' Example: $300 in a venture that paid $1,500 is worth $450.' : ''}</p>
+        <table class="summary"><thead><tr><th>Venture</th><th class="num">Every $1 became</th><th class="num">Multiply by</th>${mode === 'solo' ? '<th class="num">You invested</th><th class="num">Now worth</th>' : ''}</tr></thead><tbody>${rows}</tbody>
+        ${mode === 'solo' ? `<tfoot><tr><td>Total</td><td></td><td></td><td class="num">${money(spent(run))}</td><td class="num">${money(total(n))}</td></tr></tfoot>` : ''}</table>
+        <p style="font-size:1.5cqw"><b>Now worth = what you invested &times; the multiplier.</b>${mode === 'class' ? ' Example: $300 in a venture with a multiplier of 1.5 is worth $300 &times; 1.5 = $450.' : ''}</p>
       </div></div>`;
     }
     const L = setScene(`${topbar(running, mode === 'class' ? '<button class="btn small ghost" data-go="#/teacher">Teacher tools</button>' : '')}<div class="reveal">${body}${nav}</div>`, { spot: '50%', sign: false });
@@ -505,8 +509,8 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
       <div class="row"><button class="btn primary" data-act="rc">Start Where Are They Now (class)</button>
         <button class="btn" data-act="rs">Catch-up results on this device</button></div>
       <h3>Payouts (game design, not historical rates)</h3>
-      <table class="calc"><thead><tr><th>Venture</th><th>Every $1,000 became</th></tr></thead><tbody>
-        ${order.map((id) => `<tr><td>${title(id)}</td><td class="num">${money(T.pitches[id].payout)}</td></tr>`).join('')}</tbody></table>
+      <table class="calc"><thead><tr><th>Venture</th><th>Every $1 became</th><th>Multiplier</th><th>Every $1,000 became</th></tr></thead><tbody>
+        ${order.map((id) => `<tr><td>${title(id)}</td><td class="num">${perDollar(T.pitches[id].payout)}</td><td class="num">&times; ${mult(T.pitches[id].payout)}</td><td class="num">${money(T.pitches[id].payout)}</td></tr>`).join('')}</tbody></table>
       <h3>Math check</h3><ul class="note-list">${T.benchmarks.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>`;
     pane.addEventListener('click', (e) => {
       const a = e.target.closest('[data-act]')?.dataset.act;
@@ -518,8 +522,8 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
   if (tab === 'calc') {
     const order = getRun('class')?.order || periodOrder(s);
     pane.innerHTML = `<p>Type a student's five investments to check their math.</p>
-      <table class="calc"><thead><tr><th>Venture</th><th>Invested</th><th>&times; payout</th><th>Now worth</th></tr></thead><tbody>
-      ${order.map((id) => `<tr><td>${title(id)}</td><td><input type="number" min="0" step="1" data-id="${id}" value="0"></td><td class="num">${money(T.pitches[id].payout)} per $1,000</td><td class="num" data-out="${id}">$0</td></tr>`).join('')}
+      <table class="calc"><thead><tr><th>Venture</th><th>Invested</th><th>&times; multiplier</th><th>Now worth</th></tr></thead><tbody>
+      ${order.map((id) => `<tr><td>${title(id)}</td><td><input type="number" min="0" step="1" data-id="${id}" value="0"></td><td class="num">&times; ${mult(T.pitches[id].payout)}</td><td class="num" data-out="${id}">$0</td></tr>`).join('')}
       </tbody><tfoot><tr><td><b>Total</b></td><td class="num" data-sum></td><td></td><td class="num" data-total style="color:var(--brass-2);font-weight:700"></td></tr></tfoot></table>
       <div class="err" data-warn></div>`;
     const upd = () => {
@@ -573,7 +577,7 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
     pane.innerHTML = `<h3>Debrief questions</h3><ul class="note-list">${T.debrief.map((q) => `<li>${esc(q)}</li>`).join('')}</ul>
       ${C.defaultOrder.map((id) => {
         const t = T.pitches[id];
-        return `<h3>${title(id)} · ${esc(C.pitches[id].speaker)} · pays ${money(t.payout)}</h3>
+        return `<h3>${title(id)} · ${esc(C.pitches[id].speaker)} · &times; ${mult(t.payout)} (${money(t.payout)} per $1,000)</h3>
           <div><b>Clues students can catch</b></div><ul class="note-list">${t.clues.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
           <div><b>What each answer gives away</b></div>
           ${(C.faq[id] || []).map((q, i) => `<div class="faqnote"><div class="q">${i + 1}. ${esc(q.q)}</div><div class="n">${esc(t.faqNotes[i] || '')}</div></div>`).join('')}`;

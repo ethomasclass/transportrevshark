@@ -304,6 +304,9 @@ input[type=range].slider { width: 60%; accent-color: var(--brass); }
 .payout-stamp.win { border-color: var(--green); color: var(--green); }
 .payout-stamp .k { font-size: 1.05cqw; letter-spacing: .2em; text-transform: uppercase; }
 .payout-stamp .v { font-size: 4.2cqw; line-height: 1; }
+.payout-stamp .x { font-family: var(--sans); font-size: 1.5cqw; margin-top: .3cqw; color: var(--ink); }
+.payout-stamp .x b { font-family: var(--serif); font-size: 2.2cqw; }
+.payout-stamp .eg { font-family: var(--sans); font-size: 1cqw; color: #5c5040; font-weight: 400; }
 .payout-stamp .you { font-family: var(--sans); font-size: 1.2cqw; margin-top: .3cqw; color: var(--ink); }
 .reveal .nav { position: absolute; bottom: 4%; right: 2.5%; width: 21%; display: flex; flex-direction: column-reverse; align-items: stretch; gap: .8cqw; z-index: 5; }
 /* "why it mattered" and "big picture" */
