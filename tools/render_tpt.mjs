@@ -6,7 +6,7 @@ import { execSync } from 'node:child_process';
 const require = createRequire(execSync('npm root -g').toString().trim() + '/');
 const { chromium } = require('playwright');
 const OUT = new URL('../brand/tpt/', import.meta.url).pathname;
-const jobs = [['thumbnail', 2000, 2000], ['preview', 1920, 1080]];
+const jobs = [['thumbnail', 2000, 2000], ['preview', 1920, 1080], ['preview-printables', 1920, 1080]];
 const b = await chromium.launch();
 for (const [name, w, h] of jobs) {
   const pg = await b.newPage({ viewport: { width: w, height: h } });

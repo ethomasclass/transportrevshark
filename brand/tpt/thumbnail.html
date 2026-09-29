@@ -52,9 +52,15 @@
   .sea svg { position: absolute; inset: 0; width: 100%; height: 100%; }
   .boat { position: absolute; left: 50%; bottom: 245px; width: 1080px; transform: translateX(-50%) rotate(-1.5deg); filter: drop-shadow(0 12px 0 rgba(22,38,58,.5)); }
   .boat img { width: 100%; display: block; }
-  .bottom { position: absolute; left: 0; right: 0; bottom: 96px; display: flex; justify-content: center; gap: 30px; }
-  .pill { background: var(--paper); color: var(--navy); border: 6px solid var(--navy); border-radius: 60px; padding: 18px 46px; font-family: 'Alfa Slab One', serif; font-size: 48px; letter-spacing: 2px; box-shadow: 8px 8px 0 #0b1420; }
+  .bottom { position: absolute; left: 96px; bottom: 92px; display: flex; gap: 22px; z-index: 6; }
+  .pill { background: var(--paper); color: var(--navy); border: 6px solid var(--navy); border-radius: 60px; padding: 16px 36px; font-family: 'Alfa Slab One', serif; font-size: 36px; letter-spacing: 2px; box-shadow: 8px 8px 0 #0b1420; }
   .pill.red { background: var(--red); color: var(--paper); }
+.sheets { position: absolute; right: 0; bottom: 0; width: 800px; height: 420px; z-index: 5; }
+  .sheet { position: absolute; width: 330px; background: #fff; border: 4px solid var(--navy); box-shadow: 10px 10px 0 rgba(11,20,32,.85); }
+  .sheet img { display: block; width: 100%; }
+  .s1 { left: 20px; top: 150px; transform: rotate(-9deg); }
+  .s2 { left: 420px; top: 140px; transform: rotate(8deg); }
+  .s3 { left: 225px; top: 70px; transform: rotate(-1deg); z-index: 2; }
 </style>
 </head>
 <body>
@@ -72,7 +78,7 @@
   <div class="bubble b1">Step right up!</div>
   <div class="bubble b2">Trust me, friend!</div>
 
-  <div class="ticket"><div class="t1">INTERACTIVE<br>WEBSITE</div><div class="dash"></div><div class="t2">+ PRINTABLE WORKSHEET</div></div>
+  <div class="ticket"><div class="t1">INTERACTIVE<br>WEBSITE</div><div class="dash"></div><div class="t2">+ READING &amp; WORKSHEETS</div></div>
 
   <div class="sea">
     <svg viewBox="0 0 2000 430" preserveAspectRatio="none">
@@ -84,6 +90,11 @@
     </svg>
   </div>
   <div class="boat"><img src="steamboat.svg" alt=""></div>
-  <div class="bottom"><div class="pill">GRADES 8&ndash;12</div><div class="pill red">PROJECTOR + CHROMEBOOK READY</div></div>
+  <div class="sheets">
+    <div class="sheet s1"><img src="handouts/reading-1.jpg" alt=""></div>
+    <div class="sheet s2"><img src="handouts/thesis.jpg" alt=""></div>
+    <div class="sheet s3"><img src="handouts/tracker-1.jpg" alt=""></div>
+  </div>
+  <div class="bottom"><div class="pill">GRADES 8&ndash;12</div><div class="pill red">CHROMEBOOK READY</div></div>
 </body>
 </html>

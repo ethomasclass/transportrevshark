@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TpT Preview: Printables</title>
+<link rel="stylesheet" href="../../css/fonts.css">
+<style>
+  :root { --cream: #f4e6c4; --cream-2: #ead6a4; --paper: #fbf3de; --red: #b3342e; --navy: #16263a; --gold: #e2b95a; --teal: #1d6f86; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { width: 1920px; height: 1080px; overflow: hidden; position: relative; font-family: 'Atkinson Hyperlegible', sans-serif;
+    background: repeating-conic-gradient(from 0deg at 50% 118%, var(--cream) 0 5deg, var(--cream-2) 5deg 10deg); }
+  .top { position: absolute; left: 0; right: 0; top: 38px; text-align: center; }
+  .kick { display: inline-block; background: var(--red); color: var(--paper); font-family: 'Alfa Slab One', serif; font-size: 30px; letter-spacing: 4px; padding: 12px 44px;
+    clip-path: polygon(0 0, 100% 0, 97% 50%, 100% 100%, 0 100%, 3% 50%); box-shadow: 0 6px 0 var(--navy); }
+  h1 { margin: 14px 0 0; font-family: 'Rye', serif; font-weight: 400; font-size: 92px; color: var(--navy); letter-spacing: 3px; line-height: 1; }
+  h1 span { color: var(--red); }
+  .row { position: absolute; left: 50px; right: 50px; top: 262px; display: flex; justify-content: space-between; align-items: flex-start; }
+  .page { width: 352px; text-align: center; }
+  .sheet { position: relative; background: #fff; border: 3px solid var(--navy); box-shadow: 12px 12px 0 var(--navy); }
+  .sheet img { display: block; width: 100%; }
+  .page:nth-child(odd) .sheet { transform: rotate(-1.6deg); }
+  .page:nth-child(even) .sheet { transform: rotate(1.4deg); }
+  .cap { margin-top: 40px; font-family: 'Rye', serif; font-size: 36px; color: var(--red); line-height: 1.05; }
+  .cap small { display: block; font-family: 'Atkinson Hyperlegible', sans-serif; font-weight: 700; font-size: 24px; color: var(--navy); margin-top: 10px; line-height: 1.25; }
+  .foot { position: absolute; left: 0; right: 0; bottom: 34px; display: flex; justify-content: center; gap: 18px; }
+  .pill { background: var(--navy); color: var(--paper); border-radius: 40px; padding: 12px 30px; font-family: 'Alfa Slab One', serif; font-size: 25px; letter-spacing: 1px; }
+  .pill.red { background: var(--red); }
+</style>
+</head>
+<body>
+  <div class="top"><div class="kick">PRINT &amp; GO</div><h1>Printables <span>included</span></h1></div>
+  <div class="row">
+    <div class="page"><div class="sheet"><img src="handouts/reading-1.jpg" alt=""></div><div class="cap">The Reading<small>All five ventures in plain, grade-level language</small></div></div>
+    <div class="page"><div class="sheet"><img src="handouts/reading-2.jpg" alt=""></div><div class="cap">Check for Understanding<small>Multiple choice + true or false</small></div></div>
+    <div class="page"><div class="sheet"><img src="handouts/tracker-1.jpg" alt=""></div><div class="cap">Investor Tracker<small>Notes, predictions and investment math for every pitch</small></div></div>
+    <div class="page"><div class="sheet"><img src="handouts/tracker-final.jpg" alt=""></div><div class="cap">Final Tally<small>Total worth + Looking Back questions</small></div></div>
+    <div class="page"><div class="sheet"><img src="handouts/thesis.jpg" alt=""></div><div class="cap">Thesis Builder<small>Although &rarr; claim &rarr; because &times; 2</small></div></div>
+  </div>
+  <div class="foot"><div class="pill">GRADES 8&ndash;12</div><div class="pill red">GAME + READING + WRITING</div><div class="pill">NO PREP</div></div>
+</body>
+</html>
