@@ -1,1 +1,31 @@
-{}
+{
+ "turnpike": {
+  "closed": "closed.webp",
+  "open": "open.webp",
+  "blink": "blink.webp"
+ },
+ "slater": {
+  "closed": "closed.webp",
+  "mid": "mid.webp",
+  "open": "open.webp",
+  "blink": "blink.webp"
+ },
+ "steamboat": {
+  "closed": "closed.webp",
+  "mid": "mid.webp",
+  "open": "open.webp",
+  "blink": "blink.webp"
+ },
+ "erie": {
+  "closed": "closed.webp",
+  "mid": "mid.webp",
+  "open": "open.webp",
+  "blink": "blink.webp"
+ },
+ "northerncross": {
+  "closed": "closed.webp",
+  "mid": "mid.webp",
+  "open": "open.webp",
+  "blink": "blink.webp"
+ }
+}

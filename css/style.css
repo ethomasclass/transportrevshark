@@ -137,6 +137,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 0.25c
 /* ---------- character ---------- */
 .actor { position: absolute; bottom: 4%; left: 4%; height: 84%; aspect-ratio: 400 / 520; z-index: 2; transition: left .9s cubic-bezier(.2,.8,.2,1), opacity .5s; }
 .actor.offstage { left: -40%; opacity: 0; }
+.actor:has(.sprite) { bottom: 0; }
 .actor svg.char, .actor .sprite { width: 100%; height: 100%; display: block; overflow: visible; }
 .actor .sprite { position: relative; }
 .actor .sprite img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom; visibility: hidden; }

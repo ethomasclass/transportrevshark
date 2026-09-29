@@ -31,7 +31,10 @@ export async function makeActor(pid) {
       imgs[k] = img;
     }
     const show = () => {
-      const k = el.dataset.blink === '1' && el.dataset.mouth === 'closed' && imgs.blink ? 'blink' : (imgs[el.dataset.mouth] ? el.dataset.mouth : 'closed');
+      const m = el.dataset.mouth;
+      // a missing frame falls back to its neighbour: no "mid" means flap between closed and open
+      const k = el.dataset.blink === '1' && m === 'closed' && imgs.blink ? 'blink'
+        : imgs[m] ? m : m === 'mid' && imgs.open ? 'open' : 'closed';
       for (const [n, img] of Object.entries(imgs)) img.style.visibility = n === k ? 'visible' : 'hidden';
     };
     new MutationObserver(show).observe(el, { attributes: true, attributeFilter: ['data-mouth', 'data-blink'] });
@@ -63,6 +66,43 @@ export function flap(actor) {
   const id = setInterval(() => { if (on) actor.setMouth(seq[t++ % seq.length]); }, 95);
   actor.classList.add('talking');
   return () => { on = false; clearInterval(id); actor.setMouth('closed'); actor.classList.remove('talking'); };
+}
+
+// The theme is decoded once and looped with Web Audio, which (unlike <audio loop>) has no gap at
+// the loop point. Leading/trailing encoder silence is skipped via loopStart/loopEnd.
+let themeBuffer;
+async function themeLoop(volume) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (themeBuffer === undefined) {
+      const r = await fetch('assets/audio/theme.mp3');
+      themeBuffer = r.ok ? await ctx.decodeAudioData(await r.arrayBuffer()) : null;
+    }
+    if (!themeBuffer) { ctx.close(); return null; }
+    const ch = themeBuffer.getChannelData(0);
+    let a = 0, b = ch.length - 1;
+    while (a < b && Math.abs(ch[a]) < 1e-3) a++;
+    while (b > a && Math.abs(ch[b]) < 1e-3) b--;
+    const gain = ctx.createGain();
+    gain.gain.value = volume;
+    gain.connect(ctx.destination);
+    let src = null;
+    return {
+      play() {
+        ctx.resume();
+        if (src) return;
+        src = ctx.createBufferSource();
+        src.buffer = themeBuffer;
+        src.loop = true;
+        src.loopStart = a / themeBuffer.sampleRate;
+        src.loopEnd = b / themeBuffer.sampleRate;
+        src.connect(gain);
+        src.start(0, src.loopStart);
+      },
+      pause() { ctx.suspend(); },
+      stop() { try { src?.stop(); } catch { /* not started */ } ctx.close(); },
+    };
+  } catch { return null; }
 }
 
 const norm = (w) => w.toLowerCase().replace(/[^a-z0-9'-]/g, '');
@@ -160,14 +200,9 @@ export async function playPitch(root, { pid, pitch, paras, cut, music = 0, onDon
     audio.preload = 'auto';
     audio.addEventListener('ended', () => end());
   }
-  // optional background theme (assets/audio/theme.mp3), looped quietly under the pitch
-  let bgm = null;
-  if (music > 0) {
-    try {
-      const head = await fetch('assets/audio/theme.mp3', { method: 'HEAD' });
-      if (head.ok) { bgm = new Audio('assets/audio/theme.mp3'); bgm.loop = true; bgm.volume = music; }
-    } catch { /* no theme */ }
-  }
+  // optional background theme, looped gaplessly and quietly under the pitch
+  let bgm = null, stopped = false;
+  if (music > 0) themeLoop(music).then((b) => { if (stopped) b?.stop(); else { bgm = b; if (playing) b?.play(); } });
   const now = () => (audio ? audio.currentTime : playing ? simT + (performance.now() - simStart) / 1000 : simT);
 
   function setupAnalyser() {
@@ -191,7 +226,7 @@ export async function playPitch(root, { pid, pitch, paras, cut, music = 0, onDon
     toggleBtn.setAttribute('aria-label', 'Pause');
     actor.classList.add('talking');
     if (audio) { setupAnalyser(); ctx?.resume(); audio.play(); } else simStart = performance.now();
-    bgm?.play().catch(() => {});
+    bgm?.play();
   }
   function pause() {
     if (!playing) return;
@@ -216,7 +251,7 @@ export async function playPitch(root, { pid, pitch, paras, cut, music = 0, onDon
     onDone();
   }
 
-  let lastChunk = -1, lastCue = -2, raf = 0, level = 0;
+  let lastChunk = -1, lastCue = -2, raf = 0, level = 0, lastMouth = 0;
   function frame() {
     const t = now();
     if (!audio && playing && t >= duration) { simT = duration; end(); return; }
@@ -248,7 +283,11 @@ export async function playPitch(root, { pid, pitch, paras, cut, music = 0, onDon
         for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i];
         const rms = Math.sqrt(sum / buf.length);
         level = level * 0.5 + rms * 0.5;
-        actor.setMouth(level > 0.085 ? 'open' : level > 0.03 ? 'mid' : 'closed');
+        // thresholds from the voiced clips: roughly a third of the time each closed, mid and open;
+        // hold each shape at least 70 ms so the mouth doesn't flicker
+        const want = level > 0.13 ? 'open' : level > 0.045 ? 'mid' : 'closed';
+        const nowMs = performance.now();
+        if (want !== actor.dataset.mouth && nowMs - lastMouth > 70) { actor.setMouth(want); lastMouth = nowMs; }
       } else {
         const w = words.find((x) => x.s <= t && t <= x.e);
         actor.setMouth(w ? ['mid', 'open', 'open', 'mid', 'closed'][Math.floor((t - w.s) / 0.085) % 5] : 'closed');
@@ -287,7 +326,8 @@ export async function playPitch(root, { pid, pitch, paras, cut, music = 0, onDon
     root.removeEventListener('click', onClick);
     actor.stop();
     if (audio) { audio.pause(); audio.src = ''; }
-    if (bgm) { bgm.pause(); bgm.src = ''; }
+    stopped = true;
+    bgm?.stop();
     ctx?.close();
   }
   return { stop: () => { if (!finished) { finished = true; pause(); cleanup(); } } };

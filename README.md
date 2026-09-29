@@ -15,7 +15,7 @@ A Shark Tank-style investing game for the Transportation Revolution unit (9th-gr
 - **Worksheet:** `handout.html`, printable, two pages.
 - **Voice auditions:** `auditions/`, to compare the candidate voices for each promoter.
 
-**Background music:** put a looping track at `assets/audio/theme.mp3` and it plays quietly under each pitch. Set the volume, or turn it off, in Teacher tools.
+**Background music:** `assets/audio/theme.mp3` (made from the Suno track in `assets/audio/source/` by `tools/music_loop.py`, which crossfades its end into its start so it loops without a seam) plays quietly under each pitch. Set the volume, or turn it off, in Teacher tools.
 
 Settings, runs and leaderboards are saved in the browser (localStorage), so set up the game on the projector computer.
 
@@ -30,7 +30,7 @@ Settings, runs and leaderboards are saved in the browser (localStorage), so set 
 | Question bank (questions and in-character answers) | `content/faq.json` |
 | Payouts, newspaper reveals, clues, answer notes, debrief questions | `content/teacher.enc.json` (encrypted) |
 | Voiced pitches and word timings | `assets/audio/` |
-| Character sprites | `assets/sprites/` (see `SPRITES.md`) |
+| Character sprites (built from the Flow art in `assets/sprites/raw/`) | `assets/sprites/`, `tools/sprite_frames.json` (see `SPRITES.md`) |
 | Stand-in SVG characters | `js/chars.js` |
 
 ### Teacher-only content is encrypted

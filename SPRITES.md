@@ -57,23 +57,13 @@ It's fine if a frame comes out a few pixels off or slightly different outside th
 
 ## Step 3: hand them over
 
-Download each frame as PNG at full size and name it after the frame:
-
-```
-assets/sprites/raw/turnpike/closed.png   mid.png   open.png   blink.png
-assets/sprites/raw/slater/...
-assets/sprites/raw/steamboat/...
-assets/sprites/raw/erie/...
-assets/sprites/raw/northerncross/...
-```
-
-You can also just upload them in chat and I'll file them. Then:
+Upload the frames anywhere in the repo (or in chat). I file them under `assets/sprites/raw/<pitch id>/source/` and record which file is which frame in `tools/sprite_frames.json`. That manifest can also build a missing frame. For example, Finch, Vale and Tibbs had no "eyes open, mouth closed" frame, so theirs is the eyes-open frame with the closed mouth copied in from the blink frame. Then:
 
 ```sh
-python3 tools/sprites.py --patch        # green removed, frames aligned, mouth-only patches
+python3 tools/sprites.py        # all characters; or: python3 tools/sprites.py erie
 ```
 
-That writes `assets/sprites/<id>/*.png` and `content/sprites.json`. The stage switches to the new art automatically, and any character without sprites keeps its SVG stand-in.
+That removes the green, lines the frames up, keeps only the changed mouth or eyes from each edit, and writes `assets/sprites/<id>/*.webp` plus `content/sprites.json`. A character without a half-open frame (Keller) flaps between closed and open. Any character missing from `content/sprites.json` falls back to its SVG stand-in.
 
 ## Optional extras in Flow
 
