@@ -1,0 +1,132 @@
+{
+ "turnpike": [
+  {
+   "q": "How do I get my money back?",
+   "a": "Slowly. Tolls come in at the gates, we pay the road crews and the gatekeepers, and what's left gets split among the shareholders as a dividend. The law won't let us pay more than fifteen percent, so nobody gets rich. If you want out all at once, sell your share to somebody else. After that lottery, I expect you'll find a buyer. Can't promise what he'll pay."
+  },
+  {
+   "q": "What happens if the road costs more than you planned?",
+   "a": "It will. I've never seen a barn come in on budget, and this is sixty-two miles of barn. If the money runs short, the company sells more shares. That means your slice of the pie gets smaller. I'd rather tell you now than have you find out at a meeting. Stone costs what stone costs."
+  },
+  {
+   "q": "How do you know enough wagons will pay the tolls?",
+   "a": "I don't, not for certain. Nobody's built a stone road this long in this country. But I've watched the wagons on the Lancaster road myself, and at harvest they line up like cattle. Some fellows will try to sneak around a gate through a field to dodge the toll. Most will pay, because paying beats sinking."
+  },
+  {
+   "q": "What if farmers use a different road or route?",
+   "a": "The old dirt road stays free, and some cheapskates will use it in dry weather. That's one rival. The other worry is Baltimore. Farmers up the Susquehanna can float their grain down toward Baltimore instead of hauling it to Philadelphia. This road is meant to pull that trade our way. Might work. Might not. I'm a farmer, not a fortune teller."
+  },
+  {
+   "q": "How is a stone road better than dirt when it rains?",
+   "a": "Dirt holds water. Stone lets it through. We dig down, pack in big broken stone, then smaller stone and gravel on top, and we build it higher in the middle so rain runs off into the ditches on each side. Water has somewhere to go, so the wagon doesn't have to stay. It still needs mending every year. Nothing's free. Including roads."
+  },
+  {
+   "q": "Who will use the road, and will they mind paying?",
+   "a": "Farmers hauling wheat and flour to Philadelphia. Big Conestoga wagons coming back loaded with salt, iron, and store goods. Drovers with cattle. Families moving west. They'll all mind paying. The legislature sets the toll rates, not us, and the old road's still there, free as ever. They're welcome to sink in it. A toll costs less than a day stuck in the mud."
+  }
+ ],
+ "slater": [
+  {
+   "q": "How do I get my money back?",
+   "a": "The yarn, my friend. Almy and Brown sell it out of Providence to weavers who make cloth at home. Right now nearly every one of them buys thread shipped from England. Every skein we sell is one England doesn't. Profits divide among the partners... and, of course, among our friends. When? When the new mill is up and running. Patience is the price of being first."
+  },
+  {
+   "q": "What happens if Slater quits or gets sick?",
+   "a": "Ah. You've found the soft spot. I'll be honest, since it's you. The plans live in one head, and that head belongs to a young man. If he left us, we'd own a building full of wood and iron that nobody could mend. But he's married a local girl, he's a partner now with his own share, and he's teaching a few Pawtucket boys the trade. He's going nowhere."
+  },
+  {
+   "q": "How do you know the machines really work?",
+   "a": "Because I've seen them, and so can you. Seventy-two spindles, turning since December of 1790, in a small building by the falls. The yarn is strong and even, strong enough for the long threads that run the length of a cloth, which the old machines here could never make. Walk to Pawtucket and look for yourself. Only... walk quietly."
+  },
+  {
+   "q": "What stops someone else from copying the machines?",
+   "a": "In the end? Nothing. Secrets leak. Other Englishmen will slip out the way Slater did, and Mr. Hamilton's society in New Jersey is hunting for English mechanics this very minute. But we are first, and we have the one man who knows the machines by heart. The first mill finds the first customers. By the time the others catch up, we'll have built another."
+  },
+  {
+   "q": "How does a river turn cotton into thread?",
+   "a": "The falls turn the wheel, the wheel turns a long shaft, and gears and belts carry the power to every machine. The carding machine combs raw cotton into a soft rope. The spinning frames stretch it and twist it into yarn, dozens of threads at once. The river asks only for rain. In a dry August or a hard January... well, the wheel slows. And the raw cotton comes by ship from the West Indies."
+  },
+  {
+   "q": "Is it right to have children run the machines?",
+   "a": "You say that as if it were a hardship. Their fathers scratch at poor farms, and their mothers can barely feed them. Here a child of seven or ten earns real coin, learns order and industry, and is kept from idleness. We'll take on whole families, so the little ones work near their parents, sunup to sundown. And frankly, a child's wage is a small fraction of a man's. A ledger notices that."
+  }
+ ],
+ "steamboat": [
+  {
+   "q": "How do I get my money back?",
+   "a": "Tickets, friend, tickets! Every passenger pays a fare, every barrel of freight pays a fare, and on our river there's nobody else to pay! Now, you want figures. Figures, figures. I left the ledger with Mr. Livingston's clerk. But I can tell you this: the boat was full, and a full boat is a happy boat! Dividends? Enormous! When? Soon! Very soon!"
+  },
+  {
+   "q": "What happens if a court says your monopoly isn't legal?",
+   "a": "Not legal? Friend, the legislature of the great State of New York voted it, and just voted it again! Now, yes, a few lawyers mutter that no state can hand one company a whole river. Lawyers mutter. That's what they're paid for! And over in New Jersey a few sore losers grumble that they can't cross into our waters. Let them grumble from the shore! Next question!"
+  },
+  {
+   "q": "How do you know the boat will keep working?",
+   "a": "Because she already did it, friend! New York to Albany, a hundred and fifty miles in about thirty-two hours, when a sloop can take days if the wind won't cooperate. Then back again, and trip after trip all autumn with paying passengers. Her engine came from Boulton and Watt in England, the finest makers alive! When the ice closed the river, we spent the winter making her bigger and better!"
+  },
+  {
+   "q": "Who else is building steamboats?",
+   "a": "Oh, plenty try! Colonel Stevens over in Hoboken is building one right now. Lovely fellow. He can paddle it around New Jersey all he likes, because in New York waters we'd seize it! And years back Mr. John Fitch ran a steamboat on the Delaware. Went broke, poor man. Different boat, different luck! Nobody else has what we have: the boat and the law."
+  },
+  {
+   "q": "What could go wrong with the boat itself?",
+   "a": "Wrong? With steam? Well, the boiler's full of fire and pressure, so we treat her with respect. Sparks from the stack? A bucket of water handy! She burns a mountain of pine wood, and wood costs money, but so does waiting on the wind! And ice? Every boat on the Hudson ties up in winter, sail or steam, so we lose nothing to anybody!"
+  },
+  {
+   "q": "Who will actually ride your boat?",
+   "a": "Everybody with somewhere to be! Merchants going up to Albany on business, ladies and gentlemen who'd rather sit on a deck than bounce in a stagecoach, freight that has to arrive on time. Now, the sloop captains don't love us. Some say we'll put their crews out of work. Friend, progress has elbows! You can't stop a boat that doesn't need the wind."
+  }
+ ],
+ "erie": [
+  {
+   "q": "How do I get my money back?",
+   "a": "Through the Canal Fund, sir! The State borrows your money as canal stock and pays you interest, and in time the principal itself. And where does the Fund get its money? Tolls on every boat! A duty on every bushel of Onondaga salt! Behind it all stands the credit of the State of New York. Washington refused us a penny when President Madison vetoed the bill. So be it. New York will do it alone."
+  },
+  {
+   "q": "What happens in winter when the canal freezes?",
+   "a": "Winter? Oh, sir. In January the farmer isn't harvesting, the mill isn't grinding, and the wagon road is a frozen rut besides. For a few months the canal will rest, and so will everyone else. Come spring, the ice melts, the water returns, and the boats with it, loaded with a whole season's harvest. Not one bushel of wheat will be lost to the frost. Now, next question!"
+  },
+  {
+   "q": "How can you be sure it will only cost seven million?",
+   "a": "Our surveyors ran their levels from the Hudson to Lake Erie, sir! Judge Geddes and Mr. Wright are careful men. Trained engineers from Europe? No. America has hardly any. They taught themselves. And we begin at Rome, on the flat middle ground, the easiest digging, so we learn as we go. Mr. Jefferson called this idea little short of madness. With respect, Mr. Jefferson lives in Virginia."
+  },
+  {
+   "q": "Couldn't western farmers ship their grain some other way?",
+   "a": "They do today, sir! Down the Mississippi to New Orleans, or up the St. Lawrence to Montreal, straight into British hands! And the government's road from Cumberland creeps west through the mountains. Let it creep. A wagon on the best road in the world cannot carry thirty tons. Water beats wheels every day of the week. But whoever finishes first takes the trade, which is why we must begin now!"
+  },
+  {
+   "q": "How do locks lift a boat up a hill?",
+   "a": "Simplicity itself! A boat floats into a stone chamber and the gates close behind it. We open a sluice, water pours in from the higher level, and the boat rises like bread in an oven. The upper gates swing open, and on she goes. Eighty-three times between Albany and Buffalo! Each chamber of cut stone, each gate of heavy timber. Expensive, yes, but magnificent!"
+  },
+  {
+   "q": "Who will actually use the canal?",
+   "a": "Everyone west of Albany, sir! The farmer in the Genesee country with wheat and no way to sell it. The settler bound for Ohio with his family and his plow. The merchant of New York City, who will buy it all and sell it to the world. Towns will rise along the banks where today there is only forest. Build the ditch, and the West will float to our door!"
+  }
+ ],
+ "northerncross": [
+  {
+   "q": "How do I get my money back?",
+   "a": "Easy as pie, friend. You're buying Illinois bonds, and the State of Illinois pays interest on every one. Where does the state get it? Fares and freight on thirteen hundred miles of track. Land along the line jumping in value. New settlers paying taxes. This state is growing like corn in July. Honestly, friend, the only way to lose money here is to sit on your hands."
+  },
+  {
+   "q": "What happens if the bank panic back East spreads here?",
+   "a": "Friend, that's a New York sickness. Banks back East printed too much paper money, and now they've stopped paying out gold and silver. Illinois is different. Our wealth is dirt, the best black dirt God ever made, and dirt doesn't panic. Besides, our bonds go to bankers in London and Amsterdam, and they've got money to spare. Let the East sort out its own mess."
+  },
+  {
+   "q": "How do you know railroads actually make money?",
+   "a": "Look east, friend. Baltimore's had a railroad running since 1828. South Carolina has one over a hundred miles long. Folks back East pack those cars every day, and I hear they pay handsomely. And look at Illinois itself. Ten years ago Chicago was a swamp beside a fort. This year it's a city. Where people go, railroads pay. That's just arithmetic."
+  },
+  {
+   "q": "Why build a railroad when you have rivers and a canal coming?",
+   "a": "Why pick one horse when you can own the whole stable? The Act pays for it all, friend: rivers cleared, the canal to Chicago, and railroads crisscrossing the state. Work starts at both ends of every line and at every river crossing, all at once. Even the counties with no railroad get two hundred thousand dollars so nobody feels left out. The whole state rises together."
+  },
+  {
+   "q": "Won't a thin iron strap on wood wear out?",
+   "a": "Friend, strap rail runs on railroads all over the East right now. Wood's free for the cutting out here, oak along every creek. Iron has to come all the way from England, and we're too smart to pay for more of it than we need. Now, once in a blue moon a strap works loose. We spike it right back down. Takes a fella five minutes."
+  },
+  {
+   "q": "Who is going to ride this railroad?",
+   "a": "Everybody, friend! Farmers hauling corn and hogs to market. Settlers pouring in from Kentucky and Ohio. Lawmakers riding to Springfield, now that the capital's moving there. You build the road, and the people come. That's how the West has always worked. Those three trains a week? Packed to the rafters, I promise you. Only question is whether you'll own a piece of it."
+  }
+ ]
+}

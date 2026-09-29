@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Investor Worksheet</title>
+  <meta name="description" content="Printable investor worksheet for The Tank: notes on each pitch, a running balance, and the Where Are They Now math.">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Playfair+Display:wght@700;900&family=Rye&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink: #1b1410; --rule: #8a7a62; --soft: #f3ecdd; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #d9d2c3; color: var(--ink); font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; font-size: 10.5pt; }
+    .page { width: 8.5in; min-height: 11in; margin: .3in auto; background: #fff; padding: .45in .5in; box-shadow: 0 2px 12px rgba(0,0,0,.2); }
+    .bar { display: flex; justify-content: space-between; align-items: end; border-bottom: 3px double var(--ink); padding-bottom: 6px; margin-bottom: 10px; }
+    h1 { font-family: 'Rye', serif; font-weight: 400; font-size: 28pt; margin: 0; letter-spacing: 1px; }
+    .sub { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 12pt; }
+    .name { font-size: 10pt; line-height: 2; text-align: right; }
+    .name span { display: inline-block; border-bottom: 1px solid var(--ink); width: 2.1in; }
+    .rules { background: var(--soft); border-radius: 6px; padding: 7px 10px; margin: 0 0 10px; font-size: 9.5pt; line-height: 1.4; }
+    .pitch { display: grid; grid-template-columns: 1.6in 1fr 1fr; border: 1.5px solid var(--ink); border-radius: 6px; margin-bottom: 8px; break-inside: avoid; }
+    .pitch .left { border-right: 1px solid var(--rule); padding: 6px 8px; display: flex; flex-direction: column; gap: 4px; }
+    .pitch .num { font-family: 'Rye', serif; font-size: 16pt; line-height: 1; }
+    .field { padding: 5px 8px; border-bottom: 1px solid var(--rule); min-height: .62in; }
+    .field:nth-child(odd) { border-right: 1px solid var(--rule); }
+    .field b { display: block; font-size: 8pt; letter-spacing: .08em; text-transform: uppercase; }
+    .field i { font-size: 8pt; color: #5c5040; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; grid-column: 2 / 4; }
+    .grid .field.wide { grid-column: 1 / 3; border-right: none; border-bottom: none; }
+    .blank { border-bottom: 1px solid var(--rule); height: 18px; }
+    .money { display: flex; align-items: center; gap: 4px; font-weight: 700; font-size: 9pt; margin-top: 2px; }
+    .money .lbl { width: .62in; line-height: 1.05; }
+    .money .box { flex: 1; border: 1.5px solid var(--ink); border-radius: 4px; height: 24px; display: flex; align-items: center; padding-left: 4px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+    th, td { border: 1px solid var(--ink); padding: 8px 6px; text-align: left; vertical-align: bottom; }
+    th { background: var(--soft); font-size: 9pt; text-transform: uppercase; letter-spacing: .05em; }
+    td { height: .45in; }
+    h2 { font-family: 'Playfair Display', serif; font-size: 15pt; margin: 14px 0 4px; }
+    .lines div { border-bottom: 1px solid var(--rule); height: .34in; }
+    .tools { text-align: center; margin: 14px; font-family: system-ui; }
+    .tools button { font: inherit; padding: 8px 18px; border-radius: 6px; border: 1px solid #555; background: #fff; cursor: pointer; }
+    @media print {
+      body { background: #fff; }
+      .page { margin: 0; box-shadow: none; width: auto; min-height: 0; padding: .35in .45in; }
+      .page + .page { break-before: page; }
+      .tools { display: none; }
+    }
+    @page { size: letter; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="tools"><button onclick="print()">Print the worksheet</button></div>
+
+  <section class="page">
+    <div class="bar">
+      <div><h1>THE TANK</h1><div class="sub">Investor Worksheet · 1792 to 1837</div></div>
+      <div class="name">Name <span></span><br>Period <span style="width:.7in"></span></div>
+    </div>
+    <div class="rules"><b>You start with $1,000.</b> After each pitch, decide how much to invest, from $0 up to everything you have left. The choice is final, and you won't hear the next pitch first. Money you still have after pitch 5 is worth nothing. While each pitch plays, take quick notes: what they promise, what you can check against the reading, and anything that sounds too good to be true.</div>
+
+    <!-- five pitch blocks -->
+    <div id="pitches"></div>
+  </section>
+
+  <section class="page">
+    <div class="bar"><div><h1>THE TANK</h1><div class="sub">Where Are They Now?</div></div><div class="name">Name <span></span></div></div>
+    <div class="rules">As each newspaper is revealed, copy the payout and work out what your investment became.<br><b>Now worth = what you invested &times; payout &divide; 1,000.</b> Example: $300 in a venture that paid $1,500 is worth $300 &times; 1,500 &divide; 1,000 = $450.</div>
+    <table>
+      <thead><tr><th style="width:8%">#</th><th>Venture</th><th style="width:17%">I invested</th><th style="width:21%">Payout per $1,000</th><th style="width:19%">Now worth</th></tr></thead>
+      <tbody><tr><td>1</td><td></td><td>$</td><td>$</td><td>$</td></tr><tr><td>2</td><td></td><td>$</td><td>$</td><td>$</td></tr><tr><td>3</td><td></td><td>$</td><td>$</td><td>$</td></tr><tr><td>4</td><td></td><td>$</td><td>$</td><td>$</td></tr><tr><td>5</td><td></td><td>$</td><td>$</td><td>$</td></tr>
+        <tr><th colspan="2" style="text-align:right">Totals</th><td><b>$1,000</b></td><td style="background:var(--soft)"></td><td><b>$</b></td></tr></tbody>
+    </table>
+
+    <h2>Looking back</h2>
+    <p style="margin:2px 0 4px"><b>1.</b> Which warning signs did you catch, and which did you miss?</p>
+    <div class="lines"><div></div><div></div><div></div></div>
+    <p style="margin:10px 0 4px"><b>2.</b> Which pitch had the most hype, and how did it turn out?</p>
+    <div class="lines"><div></div><div></div><div></div></div>
+    <p style="margin:10px 0 4px"><b>3.</b> Which newspaper surprised you most, and what did the promoter leave out?</p>
+    <div class="lines"><div></div><div></div><div></div></div>
+    <p style="margin:10px 0 4px"><b>4.</b> Which pitch did you trust least? Were you right, and what gave it away?</p>
+    <div class="lines"><div></div><div></div><div></div></div>
+  </section>
+
+  <script>
+    // Five identical note blocks. Venture names are left blank because the pitch order changes by class.
+    const block = (n) => `
+      <div class="pitch">
+        <div class="left"><div class="num">Pitch ${n}</div>
+          <div><b style="font-size:8pt;text-transform:uppercase;letter-spacing:.08em">Venture &amp; year</b><div class="blank"></div></div>
+          <div class="money"><span class="lbl">Balance before</span><span class="box">$</span></div>
+          <div class="money"><span class="lbl">I invest</span><span class="box">$</span></div>
+          <div class="money"><span class="lbl">Balance after</span><span class="box">$</span></div>
+        </div>
+        <div class="grid">
+          <div class="field"><b>Promised benefit</b><i>What do they say it will do?</i></div>
+          <div class="field"><b>What I can verify</b><i>Matches the class reading</i></div>
+          <div class="field wide"><b>Red flag</b><i>Vague, pushy, or too good to be true?</i></div>
+        </div>
+      </div>`;
+    document.getElementById('pitches').innerHTML = [1, 2, 3, 4, 5].map(block).join('');
+  </script>
+</body>
+</html>

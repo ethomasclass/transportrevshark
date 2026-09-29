@@ -1,0 +1,156 @@
+{
+ "lines": {
+  "turnpike": "Now I'll be straight with you. Roads cost more than anyone says. And I don't trust anything folks fight over.",
+  "slater": "[whispers] Come closer. Closer. I shouldn't say this in a room this size. He carried no plans... he memorized them.",
+  "steamboat": "[excited] Step right up, step right up! Have you heard about the boat that needs no wind? No oars? No mules?",
+  "erie": "Gentlemen! Ladies! Look at this map. The price of shipping a ton? Not one hundred dollars. Ten. Ten dollars, gentlemen!",
+  "northerncross": "Friends! Neighbors! Sit down, sit down. A gentleman in Springfield bought early. Wouldn't tell me his name. Modest fellow."
+ },
+ "voices": {
+  "turnpike": [
+   {
+    "voice_id": "TTyZrDYo6LQowrH8mixJ",
+    "label": "Joseph Ortman (deep, raspy, calm)",
+    "file": "turnpike-TTyZrDYo6LQowrH8mixJ.mp3",
+    "seconds": 6.96,
+    "words_per_sec": 2.87,
+    "pitch_hz": 146.8,
+    "pitch_spread": 31.9
+   },
+   {
+    "voice_id": "qAZH0aMXY8tw1QufPN0D",
+    "label": "Flint (old, deep, raspy)",
+    "file": "turnpike-qAZH0aMXY8tw1QufPN0D.mp3",
+    "seconds": 8.24,
+    "words_per_sec": 2.43,
+    "pitch_hz": 128.0,
+    "pitch_spread": 56.3
+   },
+   {
+    "voice_id": "fbIG6gEosVIM95R5qOna",
+    "label": "Clint (old, raspy, experienced)",
+    "file": "turnpike-fbIG6gEosVIM95R5qOna.mp3",
+    "seconds": 8.08,
+    "words_per_sec": 2.48,
+    "pitch_hz": 78.4,
+    "pitch_spread": 83.7
+   }
+  ],
+  "slater": [
+   {
+    "voice_id": "KwPhPlUeXKi2eSe2IWCY",
+    "label": "Nathaniel C (British, whispery, suspenseful)",
+    "file": "slater-KwPhPlUeXKi2eSe2IWCY.mp3",
+    "seconds": 11.12,
+    "words_per_sec": 1.71,
+    "pitch_hz": 87.0,
+    "pitch_spread": 86.6
+   },
+   {
+    "voice_id": "agL69Vji082CshT65Tcy",
+    "label": "Lance Blackwood (posh British, dry, sly)",
+    "file": "slater-agL69Vji082CshT65Tcy.mp3",
+    "seconds": 11.28,
+    "words_per_sec": 1.68,
+    "pitch_hz": 99.4,
+    "pitch_spread": 49.8
+   },
+   {
+    "voice_id": "JZpc1bnONUh6seOuLjQe",
+    "label": "Whispering Joe (British RP, hushed)",
+    "file": "slater-JZpc1bnONUh6seOuLjQe.mp3",
+    "seconds": 9.84,
+    "words_per_sec": 1.93,
+    "pitch_hz": 320.0,
+    "pitch_spread": 103.8
+   }
+  ],
+  "steamboat": [
+   {
+    "voice_id": "dHd5gvgSOzSfduK4CvEg",
+    "label": "Ed (over-the-top announcer)",
+    "file": "steamboat-dHd5gvgSOzSfduK4CvEg.mp3",
+    "seconds": 9.2,
+    "words_per_sec": 2.17,
+    "pitch_hz": 313.7,
+    "pitch_spread": 61.1
+   },
+   {
+    "voice_id": "QMJTqaMXmGnG8TCm8WQG",
+    "label": "Clyde (vintage radio announcer)",
+    "file": "steamboat-QMJTqaMXmGnG8TCm8WQG.mp3",
+    "seconds": 7.44,
+    "words_per_sec": 2.69,
+    "pitch_hz": 182.9,
+    "pitch_spread": 59.1
+   },
+   {
+    "voice_id": "TtRFBnwQdH1k01vR0hMz",
+    "label": "Arthur (young, energetic)",
+    "file": "steamboat-TtRFBnwQdH1k01vR0hMz.mp3",
+    "seconds": 6.96,
+    "words_per_sec": 2.87,
+    "pitch_hz": 172.0,
+    "pitch_spread": 53.8
+   }
+  ],
+  "erie": [
+   {
+    "voice_id": "87tjwokZlpNU7QL3HaLP",
+    "label": "Reverend (resonant preacher)",
+    "file": "erie-87tjwokZlpNU7QL3HaLP.mp3",
+    "seconds": 11.44,
+    "words_per_sec": 1.75,
+    "pitch_hz": 105.3,
+    "pitch_spread": 71.8
+   },
+   {
+    "voice_id": "RPJ8nnVtuTgG8McXwW6M",
+    "label": "James Lindsay (booming businessman)",
+    "file": "erie-RPJ8nnVtuTgG8McXwW6M.mp3",
+    "seconds": 9.52,
+    "words_per_sec": 2.1,
+    "pitch_hz": 135.6,
+    "pitch_spread": 71.9
+   },
+   {
+    "voice_id": "1lIvFR85wn7Nid3Pu83U",
+    "label": "Edmund (theatrical, British)",
+    "file": "erie-1lIvFR85wn7Nid3Pu83U.mp3",
+    "seconds": 11.2,
+    "words_per_sec": 1.79,
+    "pitch_hz": 122.1,
+    "pitch_spread": 51.8
+   }
+  ],
+  "northerncross": [
+   {
+    "voice_id": "9T9vSqRrPPxIs5wpyZfK",
+    "label": "Eric (Southern, smooth, charming)",
+    "file": "northerncross-9T9vSqRrPPxIs5wpyZfK.mp3",
+    "seconds": 8.08,
+    "words_per_sec": 2.35,
+    "pitch_hz": 168.4,
+    "pitch_spread": 57.5
+   },
+   {
+    "voice_id": "a4BsmeT8RITKlxlCY9PO",
+    "label": "Brother Wayne (old-timey Southern)",
+    "file": "northerncross-a4BsmeT8RITKlxlCY9PO.mp3",
+    "seconds": 11.2,
+    "words_per_sec": 1.7,
+    "pitch_hz": 139.1,
+    "pitch_spread": 38.6
+   },
+   {
+    "voice_id": "4m3xt3xfssayzO1e9shv",
+    "label": "Mr. Pete (warm Southern dad)",
+    "file": "northerncross-4m3xt3xfssayzO1e9shv.mp3",
+    "seconds": 7.68,
+    "words_per_sec": 2.47,
+    "pitch_hz": 148.9,
+    "pitch_spread": 53.4
+   }
+  ]
+ }
+}
