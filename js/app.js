@@ -8,6 +8,7 @@ import { makeActor, flap, playPitch } from './stage.js';
 import { store } from './store.js';
 import { unlock, unlocked, lock } from './vault.js';
 import { openGallery, loadExhibits } from './exhibits.js';
+import { tankEmblem } from './tanklogo.js';
 
 const app = document.getElementById('app');
 const START = 1000;
@@ -33,12 +34,18 @@ function newRun(mode) {
   return { mode, order: mode === 'class' ? periodOrder(s) : shuffle(C.defaultOrder),
     period: s.period, i: 0, step: 'intro', asked: {}, invest: {} };
 }
+// Each venture's logo (js/logos/<pitch id>.js: { mark, icon }), or null if it hasn't been made.
+const logos = {};
+async function logoFor(pid) {
+  if (!(pid in logos)) { try { logos[pid] = (await import(`./logos/${pid}.js`)).default; } catch { logos[pid] = null; } }
+  return logos[pid];
+}
 const spent = (run) => Object.values(run.invest).reduce((a, b) => a + b, 0);
 
 // ---------- layout helpers ----------
-function setScene(inner, { spot = '25%', sign = true } = {}) {
+function setScene(inner, { spot = '25%', sign = true, gobo = '' } = {}) {
   if (stopCurrent) { stopCurrent(); stopCurrent = null; }
-  app.innerHTML = `<div class="set"><div class="wall"></div><div class="floor"></div><div class="lamp l"></div><div class="lamp r"></div>${sign ? '<div class="sign">THE TANK</div>' : ''}</div>
+  app.innerHTML = `<div class="set"><div class="wall"></div><div class="floor"></div><div class="lamp l"></div><div class="lamp r"></div>${sign ? '<div class="sign">THE TANK</div>' : ''}${gobo ? `<div class="gobo ${gobo}">${tankEmblem('gobo')}</div>` : ''}</div>
     <div class="spot" style="--spot-x:${spot}"></div><div class="layer" style="position:absolute;inset:0">${inner}</div>`;
   return app.querySelector('.layer');
 }
@@ -71,15 +78,53 @@ function lobby() {
         <button class="btn big" data-act="solo">${solo ? 'Resume catch-up' : 'Catch-up (play on your own)'}</button>
         <button class="btn ghost big" data-go="#/teacher">Teacher</button>
       </div>
+      <div class="lobby-tools"><button class="btn small ghost" data-act="howto">&#10067; How to play</button><button class="btn small ghost" data-act="clear">&#10227; Clear class &amp; catch-up games</button></div>
       <div class="meta">Class setup: Period ${esc(s.period)} · 90-second pitches · ${s.qLimit} question${s.qLimit === 1 ? '' : 's'} per pitch${cls ? ` · <button class="homebtn" data-act="restart-class" style="text-decoration:underline">start class game over</button>` : ''}</div>
     </div></div>
-    <div class="fin"></div>`, { spot: '50%', sign: false });
+    <div class="fin"></div>`, { spot: '50%', sign: false, gobo: 'center' });
   L.addEventListener('click', (e) => {
     const a = e.target.closest('[data-act]')?.dataset.act;
     if (a === 'class') { if (!cls) saveRun(newRun('class')); location.hash = '#/play/class'; }
     if (a === 'solo') { if (!solo) saveRun(newRun('solo')); location.hash = '#/play/solo'; }
     if (a === 'restart-class' && confirm('Start the class game over from the first pitch?')) { saveRun(newRun('class')); location.hash = '#/play/class'; }
+    if (a === 'howto') directions();
+    if (a === 'clear' && confirm('Clear the class game and the catch-up game on this computer? Everyone starts over at pitch 1 with $1,000. (Teacher settings and leaderboards are kept.)')) {
+      store.local.del('tank.run.class');
+      store.local.del('tank.run.solo');
+      store.session.del('tank.reveal.class');
+      store.session.del('tank.reveal.solo');
+      lobby();
+      toast('Class and catch-up games cleared');
+    }
   });
+  if (!store.session.get('tank.howto.seen')) { store.session.set('tank.howto.seen', true); directions(); }
+}
+
+// The directions panel: pops up on the lobby once per browser session, and on "How to play".
+function directions() {
+  const d = document.createElement('div');
+  d.className = 'modal';
+  d.innerHTML = `<div class="howto panel" role="dialog" aria-modal="true" aria-labelledby="howto-title">
+    <div class="howto-head"><div class="howto-emblem">${tankEmblem('howto')}</div>
+      <div><div class="kicker">Welcome, investor</div><h2 id="howto-title">How to play The Tank</h2>
+      <p class="lede">It's the early 1800s and you have <b>$1,000</b> to invest. Five promoters will pitch you their ventures, from 1792 to 1837. Finish with the most money.</p></div></div>
+    <ol class="howto-steps">
+      <li><b>Meet the promoter.</b> See the year, the place, and what they're selling.</li>
+      <li><b>Hear the pitch.</b> Watch the exhibits and take notes on your worksheet: the promise, what you can check against the reading, and any red flags.</li>
+      <li><b>Question the promoter.</b> The class chooses questions from the list. Read the answers carefully.</li>
+      <li><b>Make your offer.</b> Invest anywhere from $0 to everything you have left. It's final, and you won't hear the next pitch first.</li>
+      <li><b>Spend it all.</b> Money you still have after the last pitch is worth nothing.</li>
+      <li><b>Where are they now?</b> Find out what really happened, what each venture meant for the country, and what your money became.</li>
+    </ol>
+    <div class="howto-tip"><b>Think like a shark:</b> promoters mix real facts with hype. Check their claims against what you've read, and watch for vague promises, pressure to hurry, and risks that get waved away.</div>
+    <div class="howto-foot"><span>Absent? Choose <b>Catch-up</b> to play on your own.</span><button class="btn primary big" data-act="close-howto">Let's go!</button></div>
+  </div>`;
+  app.append(d);
+  const close = () => { d.remove(); document.removeEventListener('keydown', onKey); };
+  const onKey = (e) => { if (e.key === 'Escape') close(); };
+  d.addEventListener('click', (e) => { if (e.target === d || e.target.closest('[data-act=close-howto]')) close(); });
+  document.addEventListener('keydown', onKey);
+  d.querySelector('[data-act=close-howto]').focus();
 }
 
 // ---------- the run ----------
@@ -99,6 +144,7 @@ async function intro(run, pid, p, chips, go) {
     <div class="intro">
       <div class="door"></div>
       <div class="card panel">
+        <div class="card-logo">${(await logoFor(pid))?.mark || ''}</div>
         <div class="kicker">Entering the Tank</div>
         <div class="year stamp-year">${p.year}</div>
         <div class="place">${esc(p.place)}</div>
@@ -124,7 +170,9 @@ async function intro(run, pid, p, chips, go) {
 }
 
 async function pitchStep(run, pid, p, chips, go) {
-  const L = setScene(`${topbar(`${chips}<span class="chip"><b>${p.year}</b> · ${esc(p.title)}</span>`)}<div class="stage" style="position:absolute;inset:0"></div>`, { spot: '22%', sign: false });
+  const lg = await logoFor(pid);
+  const L = setScene(`${topbar(`${chips}<span class="chip"><b>${p.year}</b> · ${esc(p.title)}</span>`)}<div class="stage" style="position:absolute;inset:0"></div>
+    <div class="podium"><div class="podium-top"></div><div class="podium-face">${lg?.mark || `<span class="podium-name">${esc(p.title)}</span>`}</div></div>`, { spot: '22%', sign: false, gobo: 'left' });
   const player = await playPitch(L.querySelector('.stage'), {
     pid, pitch: p, paras: C.scripts[pid].scripts.short, cut: 'short', music: settings().music, onDone: () => go('questions'),
   });
@@ -137,11 +185,11 @@ async function questions(run, pid, p, chips, go) {
   const asked = run.asked[pid] || [];
   const L = setScene(`${topbar(chips, `${reviewBtn(pid)}<button class="btn small ghost" data-act="replay">&#8634; Hear the pitch again</button>`)}
     <div class="qa">
-      <div class="head"><div><div class="kicker">The sharks' questions</div><h2>${run.mode === 'class' ? `Choose ${limit === 1 ? 'one question' : `${limit} questions`} for ${esc(p.speaker.split(' ').slice(-1)[0])}` : `Ask ${esc(p.speaker)} ${limit === 1 ? 'one question' : `${limit} questions`}`}</h2></div>
+      <div class="head"><div class="qa-title"><div class="qa-icon">${(await logoFor(pid))?.icon || ''}</div><div><div class="kicker">The sharks' questions</div><h2>${run.mode === 'class' ? `Choose ${limit === 1 ? 'one question' : `${limit} questions`} for ${esc(p.speaker.split(' ').slice(-1)[0])}` : `Ask ${esc(p.speaker)} ${limit === 1 ? 'one question' : `${limit} questions`}`}</h2></div></div>
         <div class="count"></div></div>
       <div class="qlist"></div>
       <div class="foot"><button class="btn primary big" data-act="next">Decision time &rarr;</button></div>
-    </div>`, { spot: '14%', sign: false });
+    </div>`, { spot: '14%', sign: false, gobo: 'qa' });
   const actor = await makeActor(pid);
   L.querySelector('.qa').prepend(actor);
   const list = L.querySelector('.qlist');

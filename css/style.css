@@ -212,14 +212,14 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 0.25c
 .g-one .ex-facts { font-size: 1.55cqw; }
 .g-nav { display: flex; justify-content: center; gap: 1cqw; }
 
-.captions { position: absolute; left: 3%; right: 3%; bottom: 9%; z-index: 4; text-align: center; min-height: 11cqw; display: flex; align-items: flex-end; justify-content: center; }
+.captions { position: absolute; left: 38%; right: 2.5%; bottom: 9%; z-index: 4; text-align: center; min-height: 11cqw; display: flex; align-items: flex-end; justify-content: center; }
 .captions .line { display: inline; font-size: 2.35cqw; line-height: 1.45; font-weight: 700; padding: .25em .6em; border-radius: .3em;
   background: rgba(3,8,12,.82); box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .captions .w { color: rgba(244,234,211,.45); transition: color .12s; }
 .captions .w.said { color: var(--cream); }
 .captions.off { display: none; }
 
-.transport { position: absolute; left: 3%; right: 3%; bottom: 2.2%; z-index: 5; display: flex; align-items: center; gap: 1cqw; }
+.transport { position: absolute; left: 38%; right: 2.5%; bottom: 2.2%; z-index: 5; display: flex; align-items: center; gap: 1cqw; }
 .transport .bar { flex: 1; height: .5cqw; background: rgba(255,255,255,.15); border-radius: 1cqw; overflow: hidden; cursor: pointer; }
 .transport .bar i { display: block; height: 100%; width: 0; background: var(--brass); }
 .transport .time { font-variant-numeric: tabular-nums; font-size: 1.05cqw; color: var(--muted); min-width: 8cqw; text-align: center; }
@@ -362,6 +362,55 @@ input[type=range].slider { width: 60%; accent-color: var(--brass); }
 .board input.name { width: 12cqw; }
 
 .toast { position: absolute; left: 50%; bottom: 4%; transform: translateX(-50%); background: var(--cream); color: var(--ink); padding: .6cqw 1.4cqw; border-radius: .5cqw; font-size: 1.3cqw; z-index: 20; }
+
+
+/* ---------- The Tank emblem projected on the wall ---------- */
+.gobo { position: absolute; aspect-ratio: 1; color: #ffe7b0; opacity: .2; mix-blend-mode: screen; pointer-events: none;
+  filter: blur(.08cqw) drop-shadow(0 0 1.4cqw rgba(255,214,140,.7)); animation: gobo-flicker 7s ease-in-out infinite; }
+.gobo::before { content: ''; position: absolute; inset: -18%; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, rgba(255,222,160,.55) 0%, rgba(255,222,160,.18) 45%, transparent 70%); }
+.gobo svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.gobo.left { left: 6%; top: 7%; width: 34cqw; }
+.gobo.qa { left: 1%; top: 30%; width: 25cqw; }
+.gobo.center { left: 50%; top: 50%; width: 44cqw; transform: translate(-50%, -52%); opacity: .16; }
+@keyframes gobo-flicker { 0%, 100% { opacity: .2; } 47% { opacity: .23; } 50% { opacity: .17; } 53% { opacity: .22; } }
+.gobo.center { animation: none; }
+
+/* ---------- podium with the venture's logo ---------- */
+.podium { position: absolute; left: 5%; bottom: 0; width: 31%; height: 27%; z-index: 3; }
+.podium-top { position: absolute; left: -3%; right: -3%; top: 0; height: 9%; border-radius: .4cqw; background: linear-gradient(180deg, #7a5230, #4a2d19); border: .2cqw solid #c9a54a; box-shadow: 0 .6cqw 1.2cqw rgba(0,0,0,.5); }
+.podium-face { position: absolute; left: 0; right: 0; top: 8%; bottom: 0; background: linear-gradient(180deg, #5a3822, #2a180c);
+  border: .25cqw solid #c9a54a; border-bottom: none; display: grid; place-items: center; padding: .6cqw .8cqw; box-shadow: inset 0 0 3cqw rgba(0,0,0,.6); }
+.podium-face svg { width: 100%; height: 100%; display: block; }
+.podium-name { font-family: var(--display); color: var(--brass-2); font-size: 2.2cqw; text-align: center; }
+
+/* ---------- venture logo on the intro card and question screen ---------- */
+.intro .card { overflow: visible; }
+.card-logo { position: absolute; top: 1.2cqw; right: 1.6cqw; width: 22cqw; aspect-ratio: 2; }
+.card-logo svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 .4cqw .8cqw rgba(0,0,0,.5)); }
+.qa-title { display: flex; align-items: center; gap: 1.2cqw; }
+.qa-icon { width: 6.5cqw; height: 6.5cqw; flex: none; }
+.qa-icon:empty { display: none; }
+.qa-icon svg { width: 100%; height: 100%; display: block; }
+
+/* ---------- lobby tools and directions ---------- */
+.lobby-tools { display: flex; gap: 1cqw; justify-content: center; margin-top: 1.4cqw; }
+.modal { position: absolute; inset: 0; z-index: 40; background: rgba(3,7,10,.78); display: grid; place-items: center; animation: fade .25s ease both; }
+@keyframes fade { from { opacity: 0; } }
+.howto { width: 78%; max-height: 92%; overflow: auto; padding: 2.2cqw 2.8cqw; background: #0a1b26; }
+.howto-head { display: flex; gap: 2cqw; align-items: center; }
+.howto-emblem { width: 11cqw; flex: none; color: var(--brass-2); }
+.howto-emblem svg { width: 100%; display: block; }
+.howto h2 { font-family: var(--serif); font-size: 3cqw; margin: .2cqw 0 .4cqw; }
+.howto .lede { font-size: 1.55cqw; line-height: 1.4; margin: 0; }
+.howto-steps { counter-reset: step; list-style: none; padding: 0; margin: 1.6cqw 0 1.2cqw; display: grid; grid-template-columns: 1fr 1fr; gap: .9cqw 2cqw; }
+.howto-steps li { counter-increment: step; position: relative; padding-left: 3.6cqw; font-size: 1.4cqw; line-height: 1.4; }
+.howto-steps li::before { content: counter(step); position: absolute; left: 0; top: .1cqw; width: 2.6cqw; height: 2.6cqw; border-radius: 50%;
+  background: var(--brass); color: var(--ink); font-family: var(--display); font-size: 1.5cqw; display: grid; place-items: center; }
+.howto-steps b { color: var(--brass-2); }
+.howto-tip { background: rgba(43,143,168,.16); border-left: .4cqw solid var(--water); padding: .9cqw 1.3cqw; font-size: 1.4cqw; line-height: 1.4; border-radius: .3cqw; }
+.howto-tip b { color: #8fd4e6; }
+.howto-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 1.4cqw; font-size: 1.3cqw; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }

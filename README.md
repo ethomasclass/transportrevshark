@@ -10,6 +10,7 @@ A Shark Tank-style investing game for the Transportation Revolution unit (9th-gr
   3. The class picks 2 questions from a bank of 6, and the answer appears in the promoter's voice.
   4. Students write their investment on the worksheet.
   After the last pitch, **Where Are They Now** (teacher password) reveals one newspaper per venture, then the payout table.
+- **Lobby.** A **How to play** panel pops up the first time the lobby opens in a browser session, and the button reopens it. **Clear class & catch-up games** resets both games on that computer (teacher settings and leaderboards are kept).
 - **Catch-up (absent students).** The same game on their own device, with pitches in a shuffled order. They invest on screen, which enforces the $1,000 and spend-it-all rules. At the end, the teacher types the password on that device to show their results.
 - **Teacher tools** (password): the period, pitch order and shuffle, questions per pitch, the decision clock, a math-check calculator, a class leaderboard, and debrief notes (the clues in every pitch and what each answer gives away).
 - **Worksheet:** `handout.html`, printable, two pages.
@@ -32,6 +33,9 @@ Settings, runs and leaderboards are saved in the browser (localStorage), so set 
 | Voiced pitches and word timings | `assets/audio/` |
 | Character sprites (built from the Flow art in `assets/sprites/raw/`) | `assets/sprites/`, `tools/sprite_frames.json` (see `SPRITES.md`) |
 | Stand-in SVG characters | `js/chars.js` |
+| Venture logos (`mark` for the podium and intro card, `icon` for small spots) | `js/logos/<pitch>.js`; preview with `tools/logo-preview.html?pid=erie` |
+| "The Tank" emblem (projected on the wall, shown in the directions) | `js/tanklogo.js` |
+| Fonts (self-hosted, so the site works where Google Fonts is blocked) | `assets/fonts/`, `css/fonts.css` |
 
 ### Teacher-only content is encrypted
 
