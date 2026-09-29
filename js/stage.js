@@ -2,6 +2,7 @@
 // moves with the voice. With no audio file yet it runs on a simulated clock at speaking pace,
 // so the whole game can be tried before the voices exist.
 import { characterSVG } from './chars.js';
+import { loadExhibits, exhibitCard } from './exhibits.js';
 
 let spriteIndex = null;
 async function sprites() {
@@ -116,7 +117,7 @@ const ICON = {
 /**
  * Plays one pitch inside `root`. Resolves nothing; calls onDone() when the pitch ends or is skipped.
  */
-export async function playPitch(root, { pid, pitch, paras, cut, onDone }) {
+export async function playPitch(root, { pid, pitch, paras, cut, music = 0, onDone }) {
   const base = `assets/audio/${pid}-${cut}`;
   let timing = null;
   try {
@@ -128,11 +129,10 @@ export async function playPitch(root, { pid, pitch, paras, cut, onDone }) {
   const words = timing.words;
   const duration = timing.duration || words[words.length - 1].e;
   const chunks = chunk(words);
-  const cues = cueTimes(words, pitch.exhibits || []);
+  const cues = cueTimes(words, await loadExhibits(pid));
 
   root.innerHTML = `
-    <div class="easel"><div class="exhibit empty"><div class="label">The easel is waiting</div></div></div>
-    <div class="exhibit-tabs"></div>
+    <div class="easel"></div>
     <div class="captions"><div class="line"></div></div>
     <div class="transport">
       <button class="icon" data-act="restart" aria-label="Restart">${ICON.restart}</button>
@@ -148,7 +148,6 @@ export async function playPitch(root, { pid, pitch, paras, cut, onDone }) {
   const $ = (s) => root.querySelector(s);
   const line = $('.captions .line');
   const easel = $('.easel');
-  const tabs = $('.exhibit-tabs');
   const bar = $('.bar i');
   const time = $('.time');
   const toggleBtn = $('[data-act=toggle].icon');
@@ -160,6 +159,14 @@ export async function playPitch(root, { pid, pitch, paras, cut, onDone }) {
     audio = new Audio(`${base}.mp3`);
     audio.preload = 'auto';
     audio.addEventListener('ended', () => end());
+  }
+  // optional background theme (assets/audio/theme.mp3), looped quietly under the pitch
+  let bgm = null;
+  if (music > 0) {
+    try {
+      const head = await fetch('assets/audio/theme.mp3', { method: 'HEAD' });
+      if (head.ok) { bgm = new Audio('assets/audio/theme.mp3'); bgm.loop = true; bgm.volume = music; }
+    } catch { /* no theme */ }
   }
   const now = () => (audio ? audio.currentTime : playing ? simT + (performance.now() - simStart) / 1000 : simT);
 
@@ -184,10 +191,12 @@ export async function playPitch(root, { pid, pitch, paras, cut, onDone }) {
     toggleBtn.setAttribute('aria-label', 'Pause');
     actor.classList.add('talking');
     if (audio) { setupAnalyser(); ctx?.resume(); audio.play(); } else simStart = performance.now();
+    bgm?.play().catch(() => {});
   }
   function pause() {
     if (!playing) return;
     if (audio) audio.pause(); else simT = now();
+    bgm?.pause();
     playing = false;
     toggleBtn.innerHTML = ICON.play;
     toggleBtn.setAttribute('aria-label', 'Play');
@@ -227,11 +236,7 @@ export async function playPitch(root, { pid, pitch, paras, cut, onDone }) {
     let k = -1;
     cues.forEach((c, i) => { if (c.t <= t) k = i; });
     if (k !== lastCue) {
-      if (k >= 0) {
-        const c = cues[k];
-        easel.innerHTML = `<div class="exhibit"><div class="label">Exhibit ${String.fromCharCode(65 + k)}</div><div class="big">${c.big}</div><div class="small">${c.small}</div></div>`;
-      } else easel.innerHTML = '<div class="exhibit empty"><div class="label">The easel is waiting</div></div>';
-      tabs.innerHTML = cues.slice(0, Math.max(0, k)).map((c, i) => `<span>${String.fromCharCode(65 + i)} · ${c.big}</span>`).join('');
+      easel.innerHTML = k >= 0 ? exhibitCard(cues[k], k, cues.length) : '';
       lastCue = k;
     }
 
@@ -282,6 +287,7 @@ export async function playPitch(root, { pid, pitch, paras, cut, onDone }) {
     root.removeEventListener('click', onClick);
     actor.stop();
     if (audio) { audio.pause(); audio.src = ''; }
+    if (bgm) { bgm.pause(); bgm.src = ''; }
     ctx?.close();
   }
   return { stop: () => { if (!finished) { finished = true; pause(); cleanup(); } } };

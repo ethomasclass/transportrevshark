@@ -5,8 +5,8 @@ A Shark Tank-style investing game for the Transportation Revolution unit (9th-gr
 ## Using it in class
 
 - **Class game (projector).** Open the site and choose *Start class game*. For each promoter:
-  1. The promoter walks in with the year, place and what they're seeking.
-  2. The pitch plays with captions and "exhibits" on the easel.
+  1. The promoter walks in with the year and place, what they're seeking, and a short prospectus: what you'd be buying, how it makes money, and the promise.
+  2. The pitch plays with captions. As the promoter talks, illustrated exhibits appear on the easel: maps, diagrams and scenes with key facts. Students can reopen them with **Review the exhibits** during the questions and the decision.
   3. The class picks 2 questions from a bank of 6, and the answer appears in the promoter's voice.
   4. Students write their investment on the worksheet.
   After the last pitch, **Where Are They Now** (teacher password) reveals one newspaper per venture, then the payout table.
@@ -15,6 +15,8 @@ A Shark Tank-style investing game for the Transportation Revolution unit (9th-gr
 - **Worksheet:** `handout.html`, printable, two pages.
 - **Voice auditions:** `auditions/`, to compare the candidate voices for each promoter.
 
+**Background music:** put a looping track at `assets/audio/theme.mp3` and it plays quietly under each pitch. Set the volume, or turn it off, in Teacher tools.
+
 Settings, runs and leaderboards are saved in the browser (localStorage), so set up the game on the projector computer.
 
 ## Where things live
@@ -22,7 +24,9 @@ Settings, runs and leaderboards are saved in the browser (localStorage), so set 
 | What | File |
 |---|---|
 | Pitch scripts (the 90-second cuts, verbatim from the spec) | `content/scripts.json` |
-| Promoters, years, "seeking" lines, easel exhibits | `content/pitches.json` |
+| Promoters, years, "seeking" lines, prospectus | `content/pitches.json` |
+| Easel exhibits (title, lead, facts, the script word that shows each one) | `content/exhibits.json` |
+| Exhibit drawings (SVG, one module per pitch) | `js/art/<pitch>.js`; preview with `tools/art-preview.html?pid=erie` |
 | Question bank (questions and in-character answers) | `content/faq.json` |
 | Payouts, newspaper reveals, clues, answer notes, debrief questions | `content/teacher.enc.json` (encrypted) |
 | Voiced pitches and word timings | `assets/audio/` |

@@ -7,6 +7,7 @@
 import { makeActor, flap, playPitch } from './stage.js';
 import { store } from './store.js';
 import { unlock, unlocked, lock } from './vault.js';
+import { openGallery } from './exhibits.js';
 
 const app = document.getElementById('app');
 const START = 1000;
@@ -19,7 +20,8 @@ const money = (n) => '$' + (Math.abs(n - Math.round(n)) < 0.005 ? Math.round(n).
 const shuffle = (a) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 // ---------- settings and runs ----------
-const DEFAULTS = { period: '1', orders: {}, qLimit: 2, timer: 60 };
+const DEFAULTS = { period: '1', orders: {}, qLimit: 2, timer: 60, music: 0.1 };
+const MUSIC = [[0, 'off'], [0.06, 'very soft'], [0.1, 'soft'], [0.16, 'medium']];
 const settings = () => ({ ...DEFAULTS, ...store.local.get('tank.settings', {}) });
 const saveSettings = (s) => store.local.set('tank.settings', s);
 const periodOrder = (s = settings()) => s.orders[s.period] || C.defaultOrder;
@@ -51,7 +53,10 @@ function toast(msg) {
 app.addEventListener('click', (e) => {
   const g = e.target.closest('[data-go]');
   if (g) { e.preventDefault(); location.hash = g.dataset.go; }
+  const x = e.target.closest('[data-exhibits]');
+  if (x) openGallery(app, x.dataset.exhibits, C.pitches[x.dataset.exhibits].title);
 });
+const reviewBtn = (pid) => `<button class="btn small" data-exhibits="${pid}">&#128444; Review the exhibits</button>`;
 
 // ---------- lobby ----------
 function lobby() {
@@ -101,6 +106,11 @@ async function intro(run, pid, p, chips, go) {
         <div class="role">${esc(p.role)}</div>
         <div class="tagline">&ldquo;${esc(p.tagline)}&rdquo;</div>
         <div class="seeking">Seeking: <b>${esc(p.seeking)}</b></div>
+        <dl class="prospectus">
+          <dt>You'd be buying</dt><dd>${esc(p.prospectus.buying)}</dd>
+          <dt>How it makes money</dt><dd>${esc(p.prospectus.earns)}</dd>
+          <dt>The promise</dt><dd>${esc(p.prospectus.promise)}</dd>
+        </dl>
         <div class="go"><button class="btn primary big" data-act="go">Hear the pitch &#9654;</button></div>
       </div>
     </div>`, { spot: '22%' });
@@ -116,7 +126,7 @@ async function intro(run, pid, p, chips, go) {
 async function pitchStep(run, pid, p, chips, go) {
   const L = setScene(`${topbar(`${chips}<span class="chip"><b>${p.year}</b> · ${esc(p.title)}</span>`)}<div class="stage" style="position:absolute;inset:0"></div>`, { spot: '22%', sign: false });
   const player = await playPitch(L.querySelector('.stage'), {
-    pid, pitch: p, paras: C.scripts[pid].scripts.short, cut: 'short', onDone: () => go('questions'),
+    pid, pitch: p, paras: C.scripts[pid].scripts.short, cut: 'short', music: settings().music, onDone: () => go('questions'),
   });
   stopCurrent = player.stop;
 }
@@ -125,7 +135,7 @@ async function questions(run, pid, p, chips, go) {
   const limit = settings().qLimit;
   const qs = C.faq[pid] || [];
   const asked = run.asked[pid] || [];
-  const L = setScene(`${topbar(chips, `<button class="btn small ghost" data-act="replay">&#8634; Hear the pitch again</button>`)}
+  const L = setScene(`${topbar(chips, `${reviewBtn(pid)}<button class="btn small ghost" data-act="replay">&#8634; Hear the pitch again</button>`)}
     <div class="qa">
       <div class="head"><div><div class="kicker">The sharks' questions</div><h2>${run.mode === 'class' ? `Choose ${limit === 1 ? 'one question' : `${limit} questions`} for ${esc(p.speaker.split(' ').slice(-1)[0])}` : `Ask ${esc(p.speaker)} ${limit === 1 ? 'one question' : `${limit} questions`}`}</h2></div>
         <div class="count"></div></div>
@@ -192,7 +202,7 @@ function decide(run, pid, p, chips, go) {
   };
   if (run.mode === 'class') {
     const secs = settings().timer;
-    const L = setScene(`${topbar(chips)}
+    const L = setScene(`${topbar(chips, reviewBtn(pid))}
       <div class="decide"><div class="panel">
         ${last ? '<div class="final-banner">Final pitch</div>' : '<div class="kicker">Decision time</div>'}
         <h2>${last ? 'Everything you have left goes to ' + esc(p.speaker) : 'Sharks, make your offer to ' + esc(p.speaker)}</h2>
@@ -222,7 +232,7 @@ function decide(run, pid, p, chips, go) {
   }
   // solo: invest on screen
   const bal = START - spent(run);
-  const L = setScene(`${topbar(chips)}
+  const L = setScene(`${topbar(chips, reviewBtn(pid))}
     <div class="decide"><div class="panel">
       ${last ? '<div class="final-banner">Final pitch</div>' : '<div class="kicker">Decision time</div>'}
       <h2>${last ? 'Your remaining money goes to ' + esc(p.speaker) : 'How much will you invest in ' + esc(p.title) + '?'}</h2>
@@ -379,6 +389,7 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
     pane.innerHTML = `
       <div class="row"><label>Class period <select data-k="period">${[1, 2, 3, 4, 5, 6, 7, 8].map((n) => `<option ${String(n) === s.period ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
         <label>Questions per pitch <select data-k="qLimit">${[1, 2, 3, 6].map((n) => `<option ${n === s.qLimit ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
+        <label>Background music <select data-k="music">${MUSIC.map(([v, n]) => `<option value="${v}" ${v === s.music ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
         <label>Decision clock <select data-k="timer">${[0, 30, 45, 60, 90, 120].map((n) => `<option value="${n}" ${n === s.timer ? 'selected' : ''}>${n ? n + ' seconds' : 'off'}</option>`).join('')}</select></label></div>
       <h3>Pitch order for period ${esc(s.period)}</h3>
       <ol class="order">${order.map((id, i) => `<li><span class="n">${i + 1}</span><span class="t">${title(id)}</span>
@@ -391,7 +402,7 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
       <p style="color:var(--muted)">Settings are saved in this browser, so set them up on the projector computer. The class game picks up the order when it starts. Catch-up mode shuffles its own order.</p>`;
     pane.querySelectorAll('select').forEach((sel) => sel.addEventListener('change', () => {
       const n = settings();
-      n[sel.dataset.k] = ['qLimit', 'timer'].includes(sel.dataset.k) ? Number(sel.value) : sel.value;
+      n[sel.dataset.k] = ['qLimit', 'timer', 'music'].includes(sel.dataset.k) ? Number(sel.value) : sel.value;
       saveSettings(n); teacher(T, 'setup');
     }));
     pane.addEventListener('click', (e) => {
