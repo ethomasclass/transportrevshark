@@ -33,9 +33,9 @@ const star = (() => {
 // Little 4-2-0 locomotive facing right, rails at y=0, drawn in local units.
 const loco = `
   <g stroke="${K}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
-    <circle cx="36" cy="-98" r="9" fill="${C}"/>
-    <circle cx="18" cy="-106" r="11" fill="${C}"/>
-    <circle cx="-4" cy="-110" r="12" fill="${C}"/>
+    <circle cx="-6" cy="-96" r="10" fill="${C}"/>
+    <circle cx="13" cy="-99" r="10" fill="${C}"/>
+    <circle cx="31" cy="-94" r="9" fill="${C}"/>
     <path d="M43,-60 C35,-66 32,-78 35,-84 L61,-84 C64,-78 61,-66 53,-60 Z" fill="${K}"/>
     <rect x="33" y="-88" width="30" height="7" rx="2" fill="${G}"/>
     <rect x="44" y="-64" width="8" height="12" fill="${K}"/>
@@ -51,7 +51,7 @@ const loco = `
     <circle cx="-22" cy="-19" r="5" fill="${K}" stroke="none"/>
     <circle cx="20" cy="-11" r="10" fill="${G}"/>
     <circle cx="42" cy="-11" r="10" fill="${G}"/>
-    <path d="M-22,-19 L20,-11" stroke-width="5"/>
+    <path d="M-22,-19 L8,-19" stroke-width="6"/>
   </g>
   <g fill="${G}">
     <rect x="-2" y="-47" width="5" height="16"/>
@@ -80,8 +80,8 @@ const mark = `<svg viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg">
   <path d="M165,104 L463,104 L462,108 L164,108 Z" fill="${G}"/>
   <path d="M170,176 L446,176 L440,210 L164,210 Z" fill="${K}"/>
   <g transform="skewX(-12)">
-    <text x="${204 + 0.2126 * 79}" y="82" ${slab} font-size="48" fill="${K}" textLength="256" lengthAdjust="spacingAndGlyphs">NORTHERN</text>
-    <text x="${202 + 0.2126 * 76}" y="79" ${slab} font-size="48" fill="${C}" stroke="${K}" stroke-width="2" textLength="256" lengthAdjust="spacingAndGlyphs">NORTHERN</text>
+    <text x="${204 + 0.2126 * 79}" y="82" ${slab} font-size="48" fill="${K}" textLength="250" lengthAdjust="spacingAndGlyphs">NORTHERN</text>
+    <text x="${202 + 0.2126 * 76}" y="79" ${slab} font-size="48" fill="${C}" stroke="${K}" stroke-width="2" textLength="250" lengthAdjust="spacingAndGlyphs">NORTHERN</text>
     <text x="${240 + 0.2126 * 170}" y="170" ${slab} font-size="76" fill="${K}" textLength="218" lengthAdjust="spacingAndGlyphs">CROSS</text>
     <text x="${236 + 0.2126 * 166}" y="166" ${slab} font-size="76" fill="${O}" textLength="218" lengthAdjust="spacingAndGlyphs">CROSS</text>
     <text x="${234 + 0.2126 * 164}" y="164" ${slab} font-size="76" fill="${G}" stroke="${K}" stroke-width="2.5" textLength="218" lengthAdjust="spacingAndGlyphs">CROSS</text>
