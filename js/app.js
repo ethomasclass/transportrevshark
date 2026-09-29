@@ -7,7 +7,7 @@
 import { makeActor, flap, playPitch } from './stage.js';
 import { store } from './store.js';
 import { unlock, unlocked, lock } from './vault.js';
-import { openGallery } from './exhibits.js';
+import { openGallery, loadExhibits } from './exhibits.js';
 
 const app = document.getElementById('app');
 const START = 1000;
@@ -325,19 +325,28 @@ function reveal(mode, T) {
     return;
   }
   const order = run?.order || periodOrder();
-  let k = store.session.get(`tank.reveal.${mode}`, 0);
+  const n = order.length;
+  // steps: 0 intro, then for each venture a newspaper (odd) and "why it mattered" (even),
+  // then the big picture, then the final tally
+  const LAST = 2 * n + 2;
+  let k = Math.min(store.session.get(`tank.reveal.${mode}`, 0), LAST);
   const total = (upto) => order.slice(0, upto).reduce((a, id) => a + ((run?.invest[id] || 0) * T.pitches[id].payout) / 1000, 0);
+  const artFor = async (id) => (await loadExhibits(id)).find((ex) => ex.art === T.pitches[id].art)?.svg || '';
+  const list = (xs) => `<ul>${xs.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
 
-  const draw = () => {
+  const draw = async () => {
     store.session.set(`tank.reveal.${mode}`, k);
-    const nav = `<div class="nav">${k > 0 ? '<button class="btn ghost" data-act="prev">&larr; Back</button>' : ''}${k <= order.length ? `<button class="btn primary big" data-act="next">${k === 0 ? 'Open the first paper' : k === order.length ? 'The final tally' : 'Next paper &rarr;'}</button>` : ''}</div>`;
-    const running = mode === 'solo' ? `<span class="chip">Your money so far <b>${money(total(Math.min(k, order.length)))}</b></span>` : '';
+    const label = k === 0 ? 'Open the first paper' : k <= 2 * n && k % 2 === 1 ? 'Why it mattered &rarr;'
+      : k < 2 * n ? 'Next paper &rarr;' : k === 2 * n ? 'Big picture &rarr;' : 'The final tally';
+    const nav = `<div class="nav">${k > 0 ? '<button class="btn ghost" data-act="prev">&larr; Back</button>' : ''}${k < LAST ? `<button class="btn primary big" data-act="next">${label}</button>` : ''}</div>`;
+    const shown = Math.min(Math.floor((k + 1) / 2), n);
+    const running = mode === 'solo' ? `<span class="chip">Your money so far <b>${money(total(shown))}</b></span>` : '';
     let body;
     if (k === 0) {
       body = `<div class="curtain"><div class="panel"><div class="kicker">Years later...</div><h2 style="font-size:4.4cqw">Where Are They Now?</h2>
-        <p style="font-size:1.8cqw">Five ventures. Five newspapers from the years that followed. ${mode === 'class' ? 'For each one, multiply what <b>you</b> invested by the payout, and keep a running total on your worksheet.' : "Let's see what your money became."}</p></div></div>`;
-    } else if (k <= order.length) {
-      const id = order[k - 1], c = T.pitches[id], p = C.pitches[id];
+        <p style="font-size:1.8cqw">Five ventures. Five newspapers from the years that followed, and what each one meant for the country. ${mode === 'class' ? 'For each one, multiply what <b>you</b> invested by the payout, and keep a running total on your worksheet.' : "Let's see what your money became."}</p></div></div>`;
+    } else if (k <= 2 * n && k % 2 === 1) {
+      const id = order[(k - 1) / 2], c = T.pitches[id], p = C.pitches[id];
       const inv = run?.invest[id];
       const you = mode === 'solo' ? `<div class="you">You put in ${money(inv || 0)} &rarr; <b>${money(((inv || 0) * c.payout) / 1000)}</b></div>` : '';
       body = `<div class="paper">
@@ -346,19 +355,39 @@ function reveal(mode, T) {
         <div class="cols">${c.outcome.map((o) => `<p>${esc(o)}</p>`).join('')}<p class="impact">${esc(c.impact)}</p></div>
       </div>
       <div class="payout-stamp ${c.payout >= 1000 ? 'win' : ''}"><div class="k">${esc(p.title)}<br>every $1,000 became</div><div class="v">${money(c.payout)}</div>${you}</div>`;
+    } else if (k <= 2 * n) {
+      const id = order[k / 2 - 1], c = T.pitches[id], p = C.pitches[id];
+      body = `<div class="why panel">
+        <div class="why-head"><div><div class="kicker">Why it mattered</div><h2>${esc(p.title)} <span class="yr">${p.year}</span></h2></div><div class="why-art">${await artFor(id)}</div></div>
+        <div class="why-grid">
+          <section><h3>Key concepts</h3>${list(c.concepts || [])}</section>
+          <section><h3>Impact on the nation</h3>${list(c.impacts || [])}</section>
+        </div>
+        <div class="why-connect"><b>Connect it:</b> ${esc(c.connection || '')}</div>
+      </div>`;
+    } else if (k === 2 * n + 1) {
+      const B = T.bigPicture;
+      body = `<div class="why panel big">
+        <div class="kicker">The big picture</div><h2>The Transportation Revolution</h2>
+        <ol class="timeline">${B.timeline.map(([y, t, d]) => `<li><div class="ty">${esc(y)}</div><div class="tt">${esc(t)}</div><div class="td">${esc(d)}</div></li>`).join('')}</ol>
+        <div class="why-grid">
+          <section><h3>What it all added up to</h3>${list(B.points)}</section>
+          <section class="lowell"><h3>Your turn</h3><p>${esc(B.lowell)}</p></section>
+        </div>
+      </div>`;
     } else {
       const rows = order.map((id) => {
         const c = T.pitches[id], inv = run?.invest[id] || 0;
         return `<tr><td>${esc(C.pitches[id].title)}</td><td class="num">${money(c.payout)}</td>${mode === 'solo' ? `<td class="num">${money(inv)}</td><td class="num">${money((inv * c.payout) / 1000)}</td>` : ''}</tr>`;
       }).join('');
       body = `<div class="curtain"><div class="panel" style="width:66%">
-        <div class="kicker">The final tally</div><h2>${mode === 'solo' ? `You finished with ${money(total(order.length))}` : 'Add up your five returns'}</h2>
+        <div class="kicker">The final tally</div><h2>${mode === 'solo' ? `You finished with ${money(total(n))}` : 'Add up your five returns'}</h2>
         <table class="summary"><thead><tr><th>Venture</th><th class="num">Every $1,000 became</th>${mode === 'solo' ? '<th class="num">You invested</th><th class="num">Now worth</th>' : ''}</tr></thead><tbody>${rows}</tbody>
-        ${mode === 'solo' ? `<tfoot><tr><td>Total</td><td></td><td class="num">${money(spent(run))}</td><td class="num">${money(total(order.length))}</td></tr></tfoot>` : ''}</table>
+        ${mode === 'solo' ? `<tfoot><tr><td>Total</td><td></td><td class="num">${money(spent(run))}</td><td class="num">${money(total(n))}</td></tr></tfoot>` : ''}</table>
         <p style="font-size:1.4cqw">Return on a venture = what you invested &times; the payout &divide; 1,000.${mode === 'class' ? ' Example: $300 in a venture that paid $1,500 is worth $450.' : ''}</p>
       </div></div>`;
     }
-    const L = setScene(`${topbar(running, mode === 'class' ? '<button class="btn small ghost" data-go="#/teacher">Teacher tools</button>' : '')}<div class="reveal">${body}${nav}</div>`, { spot: '50%' });
+    const L = setScene(`${topbar(running, mode === 'class' ? '<button class="btn small ghost" data-go="#/teacher">Teacher tools</button>' : '')}<div class="reveal">${body}${nav}</div>`, { spot: '50%', sign: false });
     L.addEventListener('click', (e) => {
       const a = e.target.closest('[data-act]')?.dataset.act;
       if (a === 'next') { k += 1; draw(); }
