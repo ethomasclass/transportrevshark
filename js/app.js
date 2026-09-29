@@ -18,9 +18,10 @@ let stopCurrent = null;
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const money = (n) => '$' + (Math.abs(n - Math.round(n)) < 0.005 ? Math.round(n).toLocaleString('en-US')
   : n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-// Scoring uses whole numbers: each venture has a profit per $1 invested (+4 ... -1).
-// Profit = invested x profit per $1; money now = invested + profit. (payout = what $1,000 became.)
+// Scoring matches the Investor Tracker: C = made per $1 (a whole number, +4 ... -1),
+// D = worth at end = B (invested) x C, and the final total is the sum of the D's.
 const profitPer = (c) => c.profit ?? Math.round(c.payout / 1000 - 1);
+const worthOf = (inv, c) => (Number(inv) || 0) * profitPer(c);
 const signed = (n) => `<span class="nw">${n < 0 ? '&minus;' : '+'}${money(Math.abs(n))}</span>`;
 const perOne = (c) => (profitPer(c) < 0 ? '&minus;$' : '+$') + Math.abs(profitPer(c));
 const shuffle = (a) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -383,7 +384,7 @@ function reveal(mode, T) {
   // then the big picture, then the final tally
   const LAST = 2 * n + 2;
   let k = Math.min(store.session.get(`tank.reveal.${mode}`, 0), LAST);
-  const total = (upto) => order.slice(0, upto).reduce((a, id) => a + ((run?.invest[id] || 0) * T.pitches[id].payout) / 1000, 0);
+  const total = (upto) => order.slice(0, upto).reduce((a, id) => a + worthOf(run?.invest[id], T.pitches[id]), 0);
   const artFor = async (id) => (await loadExhibits(id)).find((ex) => ex.art === T.pitches[id].art)?.svg || '';
   const list = (xs) => `<ul>${xs.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
 
@@ -393,22 +394,22 @@ function reveal(mode, T) {
       : k < 2 * n ? 'Next paper &rarr;' : k === 2 * n ? 'Big picture &rarr;' : 'The final tally';
     const nav = `<div class="nav">${k > 0 ? '<button class="btn ghost" data-act="prev">&larr; Back</button>' : ''}${k < LAST ? `<button class="btn primary big" data-act="next">${label}</button>` : ''}</div>`;
     const shown = Math.min(Math.floor((k + 1) / 2), n);
-    const running = mode === 'solo' ? `<span class="chip">Your money so far <b>${money(total(shown))}</b></span>` : '';
+    const running = mode === 'solo' ? `<span class="chip">Total worth so far <b>${signed(total(shown))}</b></span>` : '';
     let body;
     if (k === 0) {
       body = `<div class="curtain"><div class="panel"><div class="kicker">Years later...</div><h2 style="font-size:4.4cqw">Where Are They Now?</h2>
-        <p style="font-size:1.8cqw">Five ventures. Five newspapers from the years that followed, and what each one meant for the country. ${mode === 'class' ? 'Each newspaper shows the <b>profit per $1</b>. Multiply what <b>you</b> invested by it to get your profit, then add the profit to what you invested. Keep a running total on your worksheet.' : "Let's see what your money became."}</p></div></div>`;
+        <p style="font-size:1.8cqw">Five ventures. Five newspapers from the years that followed, and what each one meant for the country. ${mode === 'class' ? 'Each newspaper shows how much the venture <b>made per $1</b>. On your tracker, multiply: <b>Worth at end = what you invested &times; made per $1</b>.' : "Let's see what your money became."}</p></div></div>`;
     } else if (k <= 2 * n && k % 2 === 1) {
       const id = order[(k - 1) / 2], c = T.pitches[id], p = C.pitches[id];
       const inv = run?.invest[id];
-      const you = mode === 'solo' ? `<div class="you">You put in ${money(inv || 0)}: profit <b>${signed((inv || 0) * profitPer(c))}</b>, you now have <b>${money((inv || 0) * (1 + profitPer(c)))}</b></div>` : '';
+      const you = mode === 'solo' ? `<div class="you">You invested ${money(inv || 0)}: worth at end <b>${signed(worthOf(inv, c))}</b></div>` : '';
       body = `<div class="paper">
         <div class="mast"><div class="name">${esc(c.paper)}</div><div class="dateline"><span>${esc(p.place)}</span><span>${esc(c.date)}</span><span>Price one cent</span></div></div>
         <h3>${esc(c.headline)}</h3><div class="subhead">${esc(c.subhead)}</div>
         <div class="cols">${c.outcome.map((o) => `<p>${esc(o)}</p>`).join('')}<p class="impact">${esc(c.impact)}</p></div>
       </div>
-      <div class="payout-stamp ${profitPer(c) > 0 ? 'win' : ''}"><div class="k">${esc(p.title)}<br>profit per $1 invested</div><div class="v">${perOne(c)}</div>
-        <div class="eg">${profitPer(c) < 0 ? 'Every dollar invested was lost.' : `$100 invested: ${signed(100 * profitPer(c))} profit`}</div>${you}</div>`;
+      <div class="payout-stamp ${profitPer(c) > 0 ? 'win' : ''}"><div class="k">${esc(p.title)}<br>made per $1</div><div class="v">${perOne(c)}</div>
+        <div class="eg">$100 &times; ${String(profitPer(c)).replace('-', '&minus;')} = ${signed(100 * profitPer(c))}</div>${you}</div>`;
     } else if (k <= 2 * n) {
       const id = order[k / 2 - 1], c = T.pitches[id], p = C.pitches[id];
       body = `<div class="why panel">
@@ -432,13 +433,13 @@ function reveal(mode, T) {
     } else {
       const rows = order.map((id) => {
         const c = T.pitches[id], inv = run?.invest[id] || 0;
-        return `<tr><td>${esc(C.pitches[id].title)}</td><td class="num"><b>${perOne(c)}</b></td>${mode === 'solo' ? `<td class="num">${money(inv)}</td><td class="num">${signed(inv * profitPer(c))}</td><td class="num">${money(inv * (1 + profitPer(c)))}</td>` : ''}</tr>`;
+        return `<tr><td>${esc(C.pitches[id].title)}</td>${mode === 'solo' ? `<td class="num">${money(inv)}</td>` : ''}<td class="num"><b>${perOne(c)}</b></td>${mode === 'solo' ? `<td class="num">${signed(worthOf(inv, c))}</td>` : ''}</tr>`;
       }).join('');
       body = `<div class="curtain"><div class="panel" style="width:66%">
-        <div class="kicker">The final tally</div><h2>${mode === 'solo' ? `You finished with ${money(total(n))}` : 'Add up your five returns'}</h2>
-        <table class="summary"><thead><tr><th>Venture</th><th class="num">Profit per $1</th>${mode === 'solo' ? '<th class="num">You invested</th><th class="num">Profit</th><th class="num">Money now</th>' : ''}</tr></thead><tbody>${rows}</tbody>
-        ${mode === 'solo' ? `<tfoot><tr><td>Total</td><td></td><td class="num">${money(spent(run))}</td><td class="num">${signed(total(n) - spent(run))}</td><td class="num">${money(total(n))}</td></tr></tfoot>` : ''}</table>
-        <p style="font-size:1.5cqw"><b>Profit = invested &times; profit per $1. Money now = invested + profit.</b>${mode === 'class' ? '<br>Example: $300 at +$3 per $1: profit $300 &times; 3 = $900, money now $300 + $900 = $1,200. At &minus;$1: profit &minus;$300, money now $0.' : ''}</p>
+        <div class="kicker">The final tally</div><h2>${mode === 'solo' ? `Your total worth: ${signed(total(n))}` : 'Add up your five returns'}</h2>
+        <table class="summary"><thead><tr><th>Venture</th>${mode === 'solo' ? '<th class="num">B &middot; You invested</th>' : ''}<th class="num">C &middot; Made per $1</th>${mode === 'solo' ? '<th class="num">D &middot; Worth at end</th>' : ''}</tr></thead><tbody>${rows}</tbody>
+        ${mode === 'solo' ? `<tfoot><tr><td>Total worth at the end</td><td class="num">${money(spent(run))}</td><td></td><td class="num">${signed(total(n))}</td></tr></tfoot>` : ''}</table>
+        <p style="font-size:1.5cqw"><b>Worth at end (D) = what you invested (B) &times; made per $1 (C).</b> Then add up D for all five pitches.${mode === 'class' ? '<br>Example: $300 &times; 3 = $900. For the bust: $300 &times; &minus;1 = &minus;$300.' : ''}</p>
       </div></div>`;
     }
     const L = setScene(`${topbar(running, mode === 'class' ? '<button class="btn small ghost" data-go="#/teacher">Teacher tools</button>' : '')}<div class="reveal">${body}${nav}</div>`, { spot: '50%', sign: false });
@@ -511,8 +512,8 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
       <div class="row"><button class="btn primary" data-act="rc">Start Where Are They Now (class)</button>
         <button class="btn" data-act="rs">Catch-up results on this device</button></div>
       <h3>Payouts (game design, not historical rates)</h3>
-      <table class="calc"><thead><tr><th>Venture</th><th>Profit per $1</th><th>$1,000 invested becomes</th></tr></thead><tbody>
-        ${order.map((id) => `<tr><td>${title(id)}</td><td class="num">${perOne(T.pitches[id])}</td><td class="num">${money(1000 * (1 + profitPer(T.pitches[id])))}</td></tr>`).join('')}</tbody></table>
+      <table class="calc"><thead><tr><th>Venture</th><th>Made per $1</th><th>$1,000 invested: worth at end</th></tr></thead><tbody>
+        ${order.map((id) => `<tr><td>${title(id)}</td><td class="num">${perOne(T.pitches[id])}</td><td class="num">${signed(worthOf(1000, T.pitches[id]))}</td></tr>`).join('')}</tbody></table>
       <h3>Math check</h3><ul class="note-list">${T.benchmarks.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>`;
     pane.addEventListener('click', (e) => {
       const a = e.target.closest('[data-act]')?.dataset.act;
@@ -523,22 +524,20 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
 
   if (tab === 'calc') {
     const order = getRun('class')?.order || periodOrder(s);
-    pane.innerHTML = `<p>Type a student's five investments to check their math.</p>
-      <table class="calc"><thead><tr><th>Venture</th><th>Invested</th><th>Profit per $1</th><th>Profit</th><th>Money now</th></tr></thead><tbody>
-      ${order.map((id) => `<tr><td>${title(id)}</td><td><input type="number" min="0" step="1" data-id="${id}" value="0"></td><td class="num">${perOne(T.pitches[id])}</td><td class="num" data-profit="${id}">$0</td><td class="num" data-out="${id}">$0</td></tr>`).join('')}
-      </tbody><tfoot><tr><td><b>Total</b></td><td class="num" data-sum></td><td></td><td class="num" data-psum></td><td class="num" data-total style="color:var(--brass-2);font-weight:700"></td></tr></tfoot></table>
+    pane.innerHTML = `<p>Type a student's five investments (B) to check their tracker. D = B &times; C.</p>
+      <table class="calc"><thead><tr><th>Venture</th><th>B &middot; Invested</th><th>C &middot; Made per $1</th><th>D &middot; Worth at end</th></tr></thead><tbody>
+      ${order.map((id) => `<tr><td>${title(id)}</td><td><input type="number" min="0" step="1" data-id="${id}" value="0"></td><td class="num">${perOne(T.pitches[id])}</td><td class="num" data-out="${id}">$0</td></tr>`).join('')}
+      </tbody><tfoot><tr><td><b>Total</b></td><td class="num" data-sum></td><td></td><td class="num" data-total style="color:var(--brass-2);font-weight:700"></td></tr></tfoot></table>
       <div class="err" data-warn></div>`;
     const upd = () => {
       let sum = 0, tot = 0;
       pane.querySelectorAll('input[data-id]').forEach((i) => {
-        const v = Math.max(0, Number(i.value) || 0), pr = v * profitPer(T.pitches[i.dataset.id]), w = v + pr;
+        const v = Math.max(0, Number(i.value) || 0), w = worthOf(v, T.pitches[i.dataset.id]);
         sum += v; tot += w;
-        pane.querySelector(`[data-profit="${i.dataset.id}"]`).innerHTML = signed(pr);
-        pane.querySelector(`[data-out="${i.dataset.id}"]`).textContent = money(w);
+        pane.querySelector(`[data-out="${i.dataset.id}"]`).innerHTML = signed(w);
       });
       pane.querySelector('[data-sum]').textContent = money(sum);
-      pane.querySelector('[data-psum]').innerHTML = signed(tot - sum);
-      pane.querySelector('[data-total]').textContent = money(tot);
+      pane.querySelector('[data-total]').innerHTML = signed(tot);
       pane.querySelector('[data-warn]').textContent = sum === START ? '' : `These add up to ${money(sum)}, not $1,000. Check the worksheet.`;
     };
     pane.addEventListener('input', upd); upd();
@@ -548,14 +547,14 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
     const order = getRun('class')?.order || periodOrder(s);
     const key = `tank.board.${s.period}`;
     let rows = store.local.get(key, []);
-    const worth = (r) => order.reduce((a, id) => a + ((Number(r[id]) || 0) * T.pitches[id].payout) / 1000, 0);
+    const worth = (r) => order.reduce((a, id) => a + worthOf(r[id], T.pitches[id]), 0);
     const draw = () => {
       const ranked = rows.map((r, i) => ({ r, i, w: worth(r) })).sort((a, b) => b.w - a.w);
       pane.innerHTML = `<p>Period ${esc(s.period)}. Type names and investments to rank the class (saved in this browser). The money winner is here; consider a Best Analyst award for the strongest notes too.</p>
         <table class="board"><thead><tr><th>#</th><th>Name</th>${order.map((id) => `<th>${esc(C.pitches[id].title.replace(/^The /, ''))}</th>`).join('')}<th>Total</th><th></th></tr></thead><tbody>
         ${ranked.map(({ r, i, w }, rank) => `<tr><td>${rank + 1}</td><td><input class="name" type="text" data-i="${i}" data-f="name" value="${esc(r.name || '')}"></td>
           ${order.map((id) => `<td><input type="number" min="0" data-i="${i}" data-f="${id}" value="${r[id] ?? ''}"></td>`).join('')}
-          <td class="num"><b>${money(w)}</b></td><td><button class="btn small ghost" data-del="${i}" aria-label="Remove">&times;</button></td></tr>`).join('')}
+          <td class="num"><b>${signed(w)}</b></td><td><button class="btn small ghost" data-del="${i}" aria-label="Remove">&times;</button></td></tr>`).join('')}
         </tbody></table>
         <div class="row"><button class="btn small" data-act="add">Add student</button><button class="btn small ghost" data-act="sort">Re-rank</button><button class="btn small ghost" data-act="clear">Clear period</button></div>`;
     };
@@ -566,7 +565,7 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
       rows[i][e.target.dataset.f] = e.target.dataset.f === 'name' ? e.target.value : Number(e.target.value);
       store.local.set(key, rows);
       const cell = e.target.closest('tr').querySelector('td.num b');
-      if (cell) cell.textContent = money(worth(rows[i]));
+      if (cell) cell.innerHTML = signed(worth(rows[i]));
     });
     pane.addEventListener('click', (e) => {
       const a = e.target.closest('[data-act]')?.dataset.act, d = e.target.closest('[data-del]')?.dataset.del;
@@ -581,7 +580,7 @@ function teacher(T, tab = store.session.get('tank.ttab', 'setup')) {
     pane.innerHTML = `<h3>Debrief questions</h3><ul class="note-list">${T.debrief.map((q) => `<li>${esc(q)}</li>`).join('')}</ul>
       ${C.defaultOrder.map((id) => {
         const t = T.pitches[id];
-        return `<h3>${title(id)} · ${esc(C.pitches[id].speaker)} · profit ${perOne(t)} per $1</h3>
+        return `<h3>${title(id)} · ${esc(C.pitches[id].speaker)} · made ${perOne(t)} per $1</h3>
           <div><b>Clues students can catch</b></div><ul class="note-list">${t.clues.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
           <div><b>What each answer gives away</b></div>
           ${(C.faq[id] || []).map((q, i) => `<div class="faqnote"><div class="q">${i + 1}. ${esc(q.q)}</div><div class="n">${esc(t.faqNotes[i] || '')}</div></div>`).join('')}`;
