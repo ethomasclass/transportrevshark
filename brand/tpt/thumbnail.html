@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TpT Thumbnail</title>
+<link rel="stylesheet" href="../../css/fonts.css">
+<style>
+  :root { --cream: #f4e6c4; --cream-2: #ead6a4; --paper: #fbf3de; --red: #b3342e; --navy: #16263a; --gold: #e2b95a; --teal: #1d6f86; --ink: #1b1410; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { width: 2000px; height: 2000px; overflow: hidden; background: var(--cream); font-family: 'Atkinson Hyperlegible', sans-serif; position: relative; }
+  .rays { position: absolute; inset: 0;
+    background: repeating-conic-gradient(from 0deg at 50% 62%, var(--cream) 0deg 7.5deg, var(--cream-2) 7.5deg 15deg); }
+  .rays::after { content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 62%, rgba(251,243,222,.95) 0 12%, rgba(251,243,222,0) 55%); }
+  .grain { position: absolute; inset: 0; opacity: .22; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .3 0 0 0 0 .15 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .frame { position: absolute; inset: 34px; border: 14px solid var(--navy); border-radius: 10px; }
+  .frame::after { content: ''; position: absolute; inset: 12px; border: 5px solid var(--red); border-radius: 4px; }
+  .corner { position: absolute; width: 70px; height: 70px; color: var(--gold); font-size: 64px; line-height: 70px; text-align: center; font-family: Georgia, serif; text-shadow: 0 4px 0 var(--navy); }
+  .c1 { left: 70px; top: 70px; } .c2 { right: 70px; top: 70px; }
+
+  .ribbon { position: absolute; left: 50%; top: 118px; transform: translateX(-50%); background: var(--red); color: var(--paper);
+    font-family: 'Alfa Slab One', serif; font-size: 44px; letter-spacing: 4px; padding: 20px 70px; white-space: nowrap;
+    clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 4% 50%); box-shadow: 0 8px 0 var(--navy); }
+  .title { position: absolute; left: 0; right: 0; top: 215px; text-align: center; white-space: nowrap; font-family: 'Rye', serif; font-size: 292px; line-height: 1; color: var(--red);
+    -webkit-text-stroke: 10px var(--navy); paint-order: stroke fill;
+    text-shadow: 6px 6px 0 var(--navy), 12px 12px 0 var(--navy), 18px 18px 0 var(--navy), 24px 24px 0 var(--navy); letter-spacing: 6px; }
+  .years { position: absolute; left: 0; right: 0; top: 548px; text-align: center; font-family: 'Playfair Display', serif; font-weight: 900; font-size: 84px; color: var(--navy); letter-spacing: 16px; }
+  .years span { color: var(--red); letter-spacing: 0; margin: 0 26px; }
+  .tag { position: absolute; left: 0; right: 0; top: 660px; text-align: center; font-family: 'Lobster', cursive; font-size: 78px; color: var(--teal); text-shadow: 0 3px 0 var(--paper); }
+
+  .who { position: absolute; bottom: 290px; }
+  .who img { display: block; height: 100%; width: auto;
+    filter: drop-shadow(8px 0 0 #fff) drop-shadow(-8px 0 0 #fff) drop-shadow(0 8px 0 #fff) drop-shadow(0 -8px 0 #fff) drop-shadow(14px 16px 0 rgba(22,38,58,.9)); }
+  .finch { left: 80px; height: 880px; }
+  .tibbs { right: 60px; height: 840px; }
+  .bubble { position: absolute; background: #fff; border: 7px solid var(--navy); border-radius: 40px; padding: 22px 34px; font-family: 'Alfa Slab One', serif; font-size: 50px; color: var(--navy); box-shadow: 10px 10px 0 var(--navy); white-space: nowrap; }
+  .bubble::after { content: ''; position: absolute; bottom: -46px; width: 50px; height: 50px; background: #fff; border-right: 7px solid var(--navy); border-bottom: 7px solid var(--navy); }
+  .b1 { left: 330px; top: 800px; transform: rotate(-5deg); } .b1::after { left: 150px; transform: rotate(45deg) skew(10deg,10deg); }
+  .b2 { right: 300px; top: 820px; transform: rotate(4deg); } .b2::after { right: 160px; transform: rotate(45deg) skew(10deg,10deg); }
+
+  .ticket { position: absolute; left: 50%; top: 930px; width: 520px; transform: translateX(-50%) rotate(-3deg); background: #f2c14e; border: 8px solid var(--navy);
+    border-radius: 18px; padding: 34px 30px; text-align: center; box-shadow: 12px 12px 0 var(--navy); }
+  .ticket::before, .ticket::after { content: ''; position: absolute; top: 50%; width: 56px; height: 56px; border-radius: 50%; background: var(--paper); border: 8px solid var(--navy); transform: translateY(-50%); }
+  .ticket::before { left: -34px; } .ticket::after { right: -34px; }
+  .ticket .t1 { font-family: 'Alfa Slab One', serif; font-size: 58px; line-height: 1.02; color: var(--red); }
+  .ticket .t2 { font-family: 'Alfa Slab One', serif; font-size: 40px; color: var(--navy); margin-top: 10px; }
+  .ticket .dash { border-top: 5px dashed var(--navy); margin: 18px 30px; }
+
+  .sea { position: absolute; left: 0; right: 0; bottom: 0; height: 430px; }
+  .sea svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .boat { position: absolute; left: 50%; bottom: 245px; width: 1080px; transform: translateX(-50%) rotate(-1.5deg); filter: drop-shadow(0 12px 0 rgba(22,38,58,.5)); }
+  .boat img { width: 100%; display: block; }
+  .bottom { position: absolute; left: 0; right: 0; bottom: 96px; display: flex; justify-content: center; gap: 30px; }
+  .pill { background: var(--paper); color: var(--navy); border: 6px solid var(--navy); border-radius: 60px; padding: 18px 46px; font-family: 'Alfa Slab One', serif; font-size: 48px; letter-spacing: 2px; box-shadow: 8px 8px 0 #0b1420; }
+  .pill.red { background: var(--red); color: var(--paper); }
+</style>
+</head>
+<body>
+  <div class="rays"></div><div class="grain"></div>
+  <div class="frame"></div>
+  <div class="corner c1">&#9733;</div><div class="corner c2">&#9733;</div>
+
+  <div class="ribbon">THE TRANSPORTATION REVOLUTION</div>
+  <div class="title">THE TANK</div>
+  <div class="years">1792<span>&#9733;</span>1837</div>
+  <div class="tag">Hear the pitch. Invest $1,000. Spot the con.</div>
+
+  <div class="who finch"><img src="../../assets/sprites/steamboat/open.webp" alt=""></div>
+  <div class="who tibbs"><img src="../../assets/sprites/northerncross/mid.webp" alt=""></div>
+  <div class="bubble b1">Step right up!</div>
+  <div class="bubble b2">Trust me, friend!</div>
+
+  <div class="ticket"><div class="t1">INTERACTIVE<br>WEBSITE</div><div class="dash"></div><div class="t2">+ PRINTABLE WORKSHEET</div></div>
+
+  <div class="sea">
+    <svg viewBox="0 0 2000 430" preserveAspectRatio="none">
+      <path d="M0 120 Q 62 80 125 120 T 250 120 T 375 120 T 500 120 T 625 120 T 750 120 T 875 120 T 1000 120 T 1125 120 T 1250 120 T 1375 120 T 1500 120 T 1625 120 T 1750 120 T 1875 120 T 2000 120 V430 H0 Z" fill="#1d6f86" stroke="#16263a" stroke-width="10"/>
+      <path d="M0 200 Q 62 164 125 200 T 250 200 T 375 200 T 500 200 T 625 200 T 750 200 T 875 200 T 1000 200 T 1125 200 T 1250 200 T 1375 200 T 1500 200 T 1625 200 T 1750 200 T 1875 200 T 2000 200 V430 H0 Z" fill="#16263a"/>
+      <g fill="none" stroke="#fbf3de" stroke-width="8" stroke-linecap="round" opacity=".8">
+        <path d="M120 160 q 40 -18 80 0"/><path d="M1650 150 q 40 -18 80 0"/><path d="M1780 170 q 30 -14 60 0"/><path d="M260 176 q 30 -14 60 0"/>
+      </g>
+    </svg>
+  </div>
+  <div class="boat"><img src="steamboat.svg" alt=""></div>
+  <div class="bottom"><div class="pill">GRADES 8&ndash;12</div><div class="pill red">PROJECTOR + CHROMEBOOK READY</div></div>
+</body>
+</html>

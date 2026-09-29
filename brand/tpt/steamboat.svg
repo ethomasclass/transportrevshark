@@ -1,0 +1,48 @@
+<svg viewBox="0 0 1000 460" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#1b1410" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+    <!-- smoke trailing back -->
+    <g fill="#fbf6ea">
+      <circle cx="505" cy="62" r="34"/><circle cx="455" cy="44" r="42"/><circle cx="392" cy="40" r="48"/>
+      <circle cx="325" cy="52" r="40"/><circle cx="268" cy="70" r="30"/><circle cx="224" cy="86" r="20"/>
+    </g>
+    <!-- stack -->
+    <rect x="512" y="78" width="36" height="232" fill="#1f2a36"/>
+    <rect x="504" y="70" width="52" height="22" rx="4" fill="#e2b95a"/>
+    <rect x="512" y="150" width="36" height="16" fill="#b3342e"/>
+    <!-- masts and flags -->
+    <path d="M150 300 V120" fill="none"/>
+    <path d="M150 124 L226 142 L150 162 Z" fill="#b3342e"/>
+    <path d="M880 300 V170" fill="none"/>
+    <path d="M880 174 L938 186 L880 200 Z" fill="#e2b95a"/>
+    <!-- cabin at the stern -->
+    <rect x="110" y="236" width="230" height="74" rx="6" fill="#fbf6ea"/>
+    <rect x="98" y="222" width="254" height="20" rx="5" fill="#b3342e"/>
+    <g fill="#7fb0c4" stroke-width="5"><rect x="130" y="258" width="34" height="28" rx="4"/><rect x="182" y="258" width="34" height="28" rx="4"/><rect x="234" y="258" width="34" height="28" rx="4"/><rect x="286" y="258" width="34" height="28" rx="4"/></g>
+    <!-- deck railing -->
+    <path d="M350 286 H960" fill="none" stroke-width="5"/>
+    <path d="M380 286 V310 M430 286 V310 M480 286 V310 M580 286 V310 M780 286 V310 M830 286 V310 M880 286 V310 M930 286 V310" fill="none" stroke-width="4"/>
+    <!-- hull -->
+    <path d="M40 306 H968 L912 392 Q520 410 104 392 Z" fill="#b3342e"/>
+    <path d="M60 306 H950 L936 330 H70 Z" fill="#fbf6ea" stroke-width="5"/>
+    <path d="M92 372 Q520 392 924 372 L912 392 Q520 410 104 392 Z" fill="#1f2a36" stroke-width="5"/>
+    <text x="300" y="366" font-family="'Rye', Georgia, serif" font-size="30" fill="#fbf6ea" stroke="none" letter-spacing="3">NORTH RIVER</text>
+    <!-- paddle wheel -->
+    <g transform="translate(680 314)">
+      <circle r="104" fill="#e2b95a"/>
+      <circle r="84" fill="#fbf6ea"/>
+      <g stroke-width="8"><path d="M0 -84 V84 M-84 0 H84 M-59 -59 L59 59 M-59 59 L59 -59"/></g>
+      <g fill="#b3342e" stroke-width="5">
+        <rect x="-14" y="-122" width="28" height="36" rx="3"/><rect x="-14" y="86" width="28" height="36" rx="3"/>
+        <rect x="86" y="-14" width="36" height="28" rx="3"/><rect x="-122" y="-14" width="36" height="28" rx="3"/>
+        <rect x="-14" y="-122" width="28" height="36" rx="3" transform="rotate(45)"/><rect x="-14" y="-122" width="28" height="36" rx="3" transform="rotate(135)"/>
+        <rect x="-14" y="-122" width="28" height="36" rx="3" transform="rotate(225)"/><rect x="-14" y="-122" width="28" height="36" rx="3" transform="rotate(315)"/>
+      </g>
+      <circle r="22" fill="#b3342e"/><circle r="8" fill="#1b1410"/>
+    </g>
+  </g>
+  <!-- spray and wake -->
+  <g fill="none" stroke="#fbf6ea" stroke-width="8" stroke-linecap="round">
+    <path d="M560 424 q 20 -26 44 -10"/><path d="M780 426 q 22 -30 48 -12"/><path d="M620 440 q 30 -20 70 -6"/>
+    <path d="M20 420 q 40 -14 80 0 t 80 0"/>
+  </g>
+</svg>

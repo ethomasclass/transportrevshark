@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TpT Preview</title>
+<link rel="stylesheet" href="../../css/fonts.css">
+<style>
+  :root { --cream: #f4e6c4; --cream-2: #ead6a4; --paper: #fbf3de; --red: #b3342e; --navy: #16263a; --gold: #e2b95a; --teal: #1d6f86; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { width: 1920px; height: 1080px; overflow: hidden; position: relative; font-family: 'Atkinson Hyperlegible', sans-serif; background: var(--navy); }
+
+  /* left: playbill */
+  .bill { position: absolute; left: 0; top: 0; bottom: 0; width: 760px; background: var(--cream); overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%); }
+  .bill .rays { position: absolute; inset: 0; background: repeating-conic-gradient(from 0deg at 20% 105%, var(--cream) 0 6deg, var(--cream-2) 6deg 12deg); opacity: .7; }
+  .bill .inner { position: absolute; left: 60px; top: 50px; right: 110px; }
+  .kick { display: inline-block; background: var(--red); color: var(--paper); font-family: 'Alfa Slab One', serif; font-size: 25px; letter-spacing: 3px; padding: 10px 26px; box-shadow: 0 5px 0 var(--navy);
+    clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 4% 50%); }
+  .title { font-family: 'Rye', serif; font-size: 122px; line-height: 1; color: var(--red); margin: 18px 0 4px; white-space: nowrap;
+    -webkit-text-stroke: 6px var(--navy); paint-order: stroke fill; text-shadow: 4px 4px 0 var(--navy), 8px 8px 0 var(--navy), 12px 12px 0 var(--navy); }
+  .years { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 42px; color: var(--navy); letter-spacing: 8px; }
+  .years span { color: var(--red); margin: 0 10px; letter-spacing: 0; }
+  .sub { font-family: 'Lobster', cursive; font-size: 36px; color: var(--teal); margin: 6px 0 22px; }
+  ul.feat { list-style: none; margin: 0; padding: 0; }
+  ul.feat li { display: flex; gap: 18px; align-items: baseline; font-size: 31px; line-height: 1.22; color: var(--navy); margin-bottom: 16px; font-weight: 700; }
+  ul.feat li::before { content: '\2605'; color: var(--red); font-size: 30px; flex: none; }
+  ul.feat li small { display: block; font-weight: 400; font-size: 23px; color: #4a3d2c; margin-top: 2px; }
+  .pills { position: absolute; left: 60px; bottom: 44px; display: flex; gap: 16px; }
+  .pill { background: var(--navy); color: var(--paper); border-radius: 40px; padding: 13px 28px; font-family: 'Alfa Slab One', serif; font-size: 26px; letter-spacing: 1px; }
+  .pill.red { background: var(--red); }
+
+  /* right: the screens */
+  .wall { position: absolute; left: 640px; right: 0; top: 0; bottom: 0;
+    background: linear-gradient(180deg, rgba(10,24,34,.2), rgba(10,24,34,.6)), radial-gradient(circle at 60% 40%, #1c4658, #0f2733 70%); }
+  .shot { position: absolute; border-radius: 12px; overflow: hidden; border: 5px solid var(--gold); background: #000;
+    box-shadow: 0 18px 36px rgba(0,0,0,.55), 0 0 0 3px var(--navy); }
+  .shot img { display: block; width: 100%; }
+  .label { position: absolute; font-family: 'Rye', serif; color: var(--gold); letter-spacing: 1.5px; text-shadow: 0 3px 0 #0b1420; white-space: nowrap; }
+  .main { left: 730px; top: 44px; width: 1030px; }
+  .l-main { left: 740px; top: 640px; font-size: 32px; }
+  .s1 { left: 740px; top: 752px; width: 400px; transform: rotate(-1.5deg); }
+  .s2 { left: 1180px; top: 752px; width: 400px; transform: rotate(1.2deg); }
+  .ws { left: 1628px; top: 700px; width: 250px; transform: rotate(3deg); border-color: var(--paper); border-radius: 4px; }
+  .l1 { left: 745px; top: 700px; font-size: 26px; }
+  .l2 { left: 1188px; top: 700px; font-size: 26px; }
+  .emblem { position: absolute; left: 1778px; top: 40px; width: 118px; filter: drop-shadow(0 6px 10px rgba(0,0,0,.5)); }
+</style>
+</head>
+<body>
+  <div class="wall"></div>
+  <div class="shot main"><img src="shots/pitch.jpg" alt=""></div>
+  <div class="label l-main">&#9733; VOICED PITCHES + ILLUSTRATED EXHIBITS</div>
+  <div class="shot s1"><img src="shots/qa.jpg" alt=""></div>
+  <div class="shot s2"><img src="shots/paper.jpg" alt=""></div>
+  <div class="shot ws"><img src="shots/ws1.jpg" alt=""></div>
+  <div class="label l1">GRILL THE PROMOTER</div>
+  <div class="label l2">WHERE ARE THEY NOW?</div>
+    <img class="emblem" src="../logos/the-tank-badge.png" alt="">
+
+  <div class="bill">
+    <div class="rays"></div>
+    <div class="inner">
+      <div class="kick">TRANSPORTATION REVOLUTION</div>
+      <div class="title">THE TANK</div>
+      <div class="years">1792<span>&#9733;</span>1837</div>
+      <div class="sub">An investing game where students are the sharks</div>
+      <ul class="feat">
+        <li><span>5 voiced pitches<small>Turnpike, Slater's Mill, steamboat, Erie Canal, early railroad</small></span></li>
+        <li><span>45 illustrated exhibits<small>Maps, diagrams and how-it-works art</small></span></li>
+        <li><span>Question the promoters<small>30 in-character answers hiding real clues</small></span></li>
+        <li><span>Invest $1,000 and spot the con<small>One pitch is a real failure sold with a con artist's tricks</small></span></li>
+        <li><span>Where Are They Now reveal<small>Real outcomes, key concepts and simple whole-number math</small></span></li>
+      </ul>
+    </div>
+    <div class="pills"><div class="pill">GRADES 8&ndash;12</div><div class="pill red">NO LOGINS</div></div>
+  </div>
+</body>
+</html>
