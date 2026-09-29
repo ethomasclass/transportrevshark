@@ -306,7 +306,7 @@ input[type=range].slider { width: 60%; accent-color: var(--brass); }
 .payout-stamp .v { font-size: 4.2cqw; line-height: 1; }
 .payout-stamp .x { font-family: var(--sans); font-size: 1.5cqw; margin-top: .3cqw; color: var(--ink); }
 .payout-stamp .x b { font-family: var(--serif); font-size: 2.2cqw; }
-.payout-stamp .eg { font-family: var(--sans); font-size: 1cqw; color: #5c5040; font-weight: 400; }
+.payout-stamp .eg { font-family: var(--sans); font-size: 1.2cqw; color: #3b2e22; font-weight: 700; margin-top: .3cqw; }
 .payout-stamp .you { font-family: var(--sans); font-size: 1.2cqw; margin-top: .3cqw; color: var(--ink); }
 .reveal .nav { position: absolute; bottom: 4%; right: 2.5%; width: 21%; display: flex; flex-direction: column-reverse; align-items: stretch; gap: .8cqw; z-index: 5; }
 /* "why it mattered" and "big picture" */
@@ -421,6 +421,8 @@ input[type=range].slider { width: 60%; accent-color: var(--brass); }
 .howto-tip { background: rgba(43,143,168,.16); border-left: .4cqw solid var(--water); padding: .9cqw 1.3cqw; font-size: 1.4cqw; line-height: 1.4; border-radius: .3cqw; }
 .howto-tip b { color: #8fd4e6; }
 .howto-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 1.4cqw; font-size: 1.3cqw; color: var(--muted); }
+
+.nw { white-space: nowrap; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
