@@ -340,7 +340,7 @@ const voyage = (() => {
   o += `<circle cx="${r1(yx)}" cy="${r1(yy)}" r="4" fill="${INK}"/>`;
   o += `<path d="M${r1(px)} ${r1(py - 7)} l2.4 5 5.4 0.6 -4 3.6 1.2 5.4 -5 -2.8 -5 2.8 1.2 -5.4 -4 -3.6 5.4 -0.6 Z" fill="${RED}" ${S} stroke-width="1.5"/>`;
   o += label(r1(px - 10), r1(py + 4), 'Pawtucket', { size: 15, anchor: 'end', halo: true });
-  o += label(r1(yx + 8), r1(yy + 24), 'New York', { size: 15, anchor: 'start', halo: true });
+  o += label(r1(yx + 16), r1(yy + 24), 'New York', { size: 15, anchor: 'start', halo: true });
   o += `</svg>`;
   return o;
 })();
