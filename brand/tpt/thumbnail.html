@@ -28,7 +28,12 @@
     text-shadow: 6px 6px 0 var(--navy), 12px 12px 0 var(--navy), 18px 18px 0 var(--navy), 24px 24px 0 var(--navy); letter-spacing: 6px; }
   .years { position: absolute; left: 0; right: 0; top: 548px; text-align: center; font-family: 'Playfair Display', serif; font-weight: 900; font-size: 84px; color: var(--navy); letter-spacing: 16px; }
   .years span { color: var(--red); letter-spacing: 0; margin: 0 26px; }
-  .tag { position: absolute; left: 0; right: 0; top: 660px; text-align: center; font-family: 'Lobster', cursive; font-size: 78px; color: var(--teal); text-shadow: 0 3px 0 var(--paper); }
+  .band { position: absolute; left: 70px; right: 70px; top: 530px; height: 150px; background: var(--navy); display: grid; place-items: center;
+    clip-path: polygon(0 0, 100% 0, 97.5% 50%, 100% 100%, 0 100%, 2.5% 50%); }
+  .band::before { content: ''; position: absolute; inset: 12px 50px; border-top: 4px solid var(--gold); border-bottom: 4px solid var(--gold); }
+  .band span { position: relative; font-family: 'Alfa Slab One', serif; font-size: 94px; letter-spacing: 3px; color: var(--paper); white-space: nowrap;
+    text-shadow: 5px 5px 0 var(--red); }
+  .tag { position: absolute; left: 0; right: 0; top: 700px; text-align: center; font-family: 'Lobster', cursive; font-size: 78px; color: var(--teal); text-shadow: 0 3px 0 var(--paper); }
 
   .who { position: absolute; bottom: 290px; }
   .who img { display: block; height: 100%; width: auto;
@@ -68,9 +73,9 @@
   <div class="frame"></div>
   <div class="corner c1">&#9733;</div><div class="corner c2">&#9733;</div>
 
-  <div class="ribbon">THE TRANSPORTATION REVOLUTION</div>
+  <div class="ribbon">AN INVESTING GAME &nbsp;&#9733;&nbsp; 1792&ndash;1837</div>
   <div class="title">THE TANK</div>
-  <div class="years">1792<span>&#9733;</span>1837</div>
+  <div class="band"><span>TRANSPORTATION REVOLUTION</span></div>
   <div class="tag">Hear the pitch. Invest $1,000. Spot the con.</div>
 
   <div class="who finch"><img src="../../assets/sprites/steamboat/open.webp" alt=""></div>
